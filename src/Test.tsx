@@ -5,24 +5,24 @@ export default function Test() {
   let videoRef: HTMLVideoElement;
   let canvasRef: HTMLCanvasElement;
   let ctx: CanvasRenderingContext2D | null;
-  let sto: number;
+  let sti: number;
 
   onMount(() => {
     ctx = canvasRef.getContext("2d", { willReadFrequently: true });
   });
 
-  onCleanup(() => clearTimeout(sto));
+  onCleanup(() => clearTimeout(sti));
 
   const onPlay = () => {
     const { updateBackground } = useUpdateBackground(videoRef, ctx);
 
     console.log("Play started");
-    // Update the size of the canvas to match the video
+    // Fait correspondre la taille du canvas avec celle de la vidéo
     canvasRef.width = videoRef.width / 2;
     canvasRef.height = videoRef.height / 2;
 
-    // Start updating the bg color
-    sto = setInterval(updateBackground, 100);
+    // Met à jour le background toutes les 100ms
+    sti = setInterval(updateBackground, 100);
   };
 
   return (
