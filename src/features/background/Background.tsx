@@ -1,7 +1,8 @@
 import { onCleanup, onMount } from "solid-js";
-import useUpdateBackground from "./utils/hooks/useUpdateBackground";
+import useUpdateBackground from "../../utils/hooks/useUpdateBackground";
+import styles from "@styles/Test.module.scss";
 
-export default function Test() {
+export default function Background() {
   let videoRef: HTMLVideoElement;
   let canvasRef: HTMLCanvasElement;
   let ctx: CanvasRenderingContext2D | null;
@@ -16,7 +17,6 @@ export default function Test() {
   const onPlay = () => {
     const { updateBackground } = useUpdateBackground(videoRef, ctx);
 
-    console.log("Play started");
     // Fait correspondre la taille du canvas avec celle de la vidéo
     canvasRef.width = videoRef.width / 2;
     canvasRef.height = videoRef.height / 2;
@@ -28,7 +28,6 @@ export default function Test() {
   return (
     <div class="text-center">
       <video
-        id="my_video"
         height="250"
         width="600"
         controls
@@ -42,7 +41,7 @@ export default function Test() {
           type="video/webm"
         />
       </video>
-      <canvas id="my_canvas" ref={canvasRef!} style="display:none"></canvas>
+      <canvas ref={canvasRef!} class={styles.hide}></canvas>
 
       <br />
       <br />
