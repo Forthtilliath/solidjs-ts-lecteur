@@ -12,8 +12,11 @@
     "noEmit": true,
     "isolatedModules": true,
     "paths": {
-      "@styles": ["./src/styles"]
+      "@features/*": ["./src/features/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@hooks/*": ["./src/utils/hooks/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src"]
 }

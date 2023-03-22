@@ -1,0 +1,11 @@
+.wrapper {
+  box-shadow: 0 0 10px 5px black;
+  padding: 2rem;
+  border-radius: 1rem;
+
+  // max-width: 1200px;
+  // width: 100%;
+  // width: min(100dvw, 1200px);
+  // width: min(calc(100dvw - 4rem), 1200px);
+  width: min(calc(100dvw - var(--margin-main) * 2), 1200px);
+}

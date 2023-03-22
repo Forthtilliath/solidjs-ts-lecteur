@@ -4,7 +4,7 @@
  */
 
 /** */
-export default function useUpdateBackground(
+export function useUpdateBackground(
   video: HTMLVideoElement,
   ctx: CanvasRenderingContext2D | null
 ) {

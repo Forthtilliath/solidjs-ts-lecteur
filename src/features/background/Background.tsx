@@ -1,5 +1,5 @@
 import { onCleanup, onMount } from "solid-js";
-import useUpdateBackground from "../../utils/hooks/useUpdateBackground";
+import { useUpdateBackground } from "@hooks";
 import styles from "@styles/Test.module.scss";
 
 export default function Background() {

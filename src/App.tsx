@@ -1,13 +1,13 @@
 import type { Component } from "solid-js";
 
-import styles from "./App.module.css";
-import Test from "./features/background/Background";
+import styles from "@styles/App.module.scss";
+import { Player } from "@features/player";
 
 const App: Component = () => {
   return (
     <div class={styles.App}>
-      <main>
-        <Test />
+      <main class={styles.main}>
+        <Player />
       </main>
     </div>
   );
