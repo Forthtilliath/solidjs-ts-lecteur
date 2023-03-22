@@ -7,18 +7,22 @@ type Props = Track & {
   launchTrack: LaunchTrackType;
 };
 
-export default function Track({
-  id,
-  title,
-  duration,
-  index,
-  launchTrack,
-}: Props) {
+export function Track({ id, title, duration, index, launchTrack }: Props) {
   return (
     <div class={styles.wrapper} onClick={launchTrack(id)}>
       <div class={styles.index}>{index + 1}</div>
       <div class={styles.title}>{title}</div>
       <div class={styles.duration}>{secondsToMMSS(duration)}</div>
+    </div>
+  );
+}
+
+export function TrackHeader() {
+  return (
+    <div class={styles.header}>
+      <div class={styles.index}>#</div>
+      <div class={styles.title}>Titre</div>
+      <div class={styles.duration}>mm:ss</div>
     </div>
   );
 }

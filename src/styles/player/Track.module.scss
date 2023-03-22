@@ -1,6 +1,20 @@
-.wrapper {
+@import "../variables";
+
+.wrapper,
+.header {
   display: flex;
   gap: 1rem;
+  line-height: 3;
+  padding-inline:1rem;
+}
+
+.header {
+  border-bottom: 1px solid #ccc;
+}
+
+.wrapper:hover {
+  background: hsla(0, 0deg, 0%, .3);
+  cursor: pointer;
 }
 
 .index {
@@ -14,4 +28,5 @@
 
 .duration {
   width: 5ch;
+  font-family: $font-duration;
 }

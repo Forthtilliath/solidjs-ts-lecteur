@@ -1,0 +1,25 @@
+@import "../variables";
+
+.wrapper {
+  width: 100%;
+  height: 80px;
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  border-top: 1px solid rgba($color-white, 0.25);
+  background: $color-blue-dark;
+}
+
+.controls {
+    display: flex;
+}
+
+.features {
+    display: flex;
+}

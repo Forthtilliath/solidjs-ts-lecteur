@@ -1,7 +1,6 @@
 import styles from "@styles/player/Player.module.scss";
 import { tracks } from "@utils/data";
-import { For } from "solid-js";
-import Track from "./Track";
+import { Controls } from "./Controls";
 import { TracksList } from "./TracksList";
 
 export function Player() {
@@ -9,6 +8,7 @@ export function Player() {
     <div class={styles.wrapper}>
       <h1>Spotube</h1>
       <TracksList tracks={tracks} launchTrack={launchTrack} />
+      <Controls />
     </div>
   );
 }
