@@ -1,14 +1,13 @@
 import styles from "@styles/player/Player.module.scss";
 import { tracks } from "@utils/data";
-import { Controls } from "./Controls";
+import { Logo } from "./Logo";
 import { TracksList } from "./TracksList";
 
 export function Player() {
   return (
     <div class={styles.wrapper}>
-      <h1>Spotube</h1>
+      <Logo />
       <TracksList tracks={tracks} launchTrack={launchTrack} />
-      <Controls />
     </div>
   );
 }

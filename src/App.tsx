@@ -2,6 +2,7 @@ import type { Component } from "solid-js";
 
 import styles from "@styles/App.module.scss";
 import { Player } from "@features/player";
+import { Controls } from "@features/player/Controls";
 
 const App: Component = () => {
   return (
@@ -9,6 +10,9 @@ const App: Component = () => {
       <main class={styles.main}>
         <Player />
       </main>
+      <footer class={styles.footer}>
+        <Controls />
+      </footer>
     </div>
   );
 };
