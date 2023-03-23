@@ -12,10 +12,17 @@ import {
   FaSolidVolumeOff,
 } from "@features/Icons";
 import styles from "@styles/player/Controls.module.scss";
-import { Match, Show, Switch } from "solid-js";
+import { createEffect, Match, Show, Switch } from "solid-js";
 
 export function Controls() {
-  const { isPlaying, toggle, volume } = usePlayer();
+  const { current, isPlaying, toggle, volume } = usePlayer();
+  let audioRef: HTMLAudioElement;
+
+  createEffect(() => {
+    console.log({ isPlaying: isPlaying(), current: current() });
+    if (isPlaying()) audioRef.play();
+    else audioRef.pause();
+  });
 
   return (
     <div class={styles.wrapper}>
@@ -38,6 +45,10 @@ export function Controls() {
       <div class={styles.status}>
         <div class={styles.infos}>Titre - Artiste</div>
         <div class={styles.playbar}></div>
+        <audio
+          src={"/src/assets/tracks/" + current()?.filename}
+          ref={audioRef!}
+        />
       </div>
       <div class={styles.features}>
         <div>
