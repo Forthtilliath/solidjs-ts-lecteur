@@ -8,10 +8,21 @@
   box-sizing: border-box;
 }
 
+html, body {
+  overflow: hidden;
+}
+
 body {
   font-family: $font-text;
   color: $color-white;
-  background: $color-black;
+  // background: $color-black;
+  // background: $color-blue-medium;
+  
+  background-image: linear-gradient(
+    120deg,
+    $color-blue-dark 0%,
+    $color-blue-medium 100%
+  );
 
   overflow-x: hidden;
 
@@ -29,3 +40,5 @@ h1, h2, h3, h4, h5, h6 {
     --margin-main: 0rem;
   }
 }
+
+// https://www.makeuseof.com/react-components-css-modules-style/

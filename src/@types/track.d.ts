@@ -1,4 +1,4 @@
-import { covers } from "@utils/data";
+import { albums } from "@utils/data";
 
 declare global {
   type Track = {
@@ -6,19 +6,23 @@ declare global {
     cover: string;
     title: string;
     artist: string;
-    album: typeof covers[number]['id'];
-    duration?: number;
+    albumId: typeof albums[number]["id"];
+    duration: number;
     filename: string;
   };
 
-  type Cover = {
+  type Album = {
     id: number;
-    album: string;
+    name: string;
     filename: string;
-  }
+  };
 
   type Tracks = ReadonlyArray<Track>;
-  type Covers = ReadonlyArray<Cover>;
+  type Albums = ReadonlyArray<Album>;
+
+  type TrackAlbum = Track & {
+    album: Album;
+  };
 }
 
-export {}
+export {};

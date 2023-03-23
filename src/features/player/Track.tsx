@@ -1,18 +1,19 @@
+import { usePlayer } from "@assets/contexts/playerContext";
 import styles from "@styles/player/Track.module.scss";
 import { secondsToMMSS } from "@utils/methods/duration";
-import { LaunchTrackType } from "./Player";
 
 type Props = Track & {
   index: number;
-  launchTrack: LaunchTrackType;
 };
 
-export function Track({ id, title, duration, index, launchTrack }: Props) {
+export function Track(props: Props) {
+  const { play } = usePlayer();
+  // const play = (id: number) => () => {};
   return (
-    <div class={styles.wrapper} onClick={launchTrack(id)}>
-      <div class={styles.index}>{index + 1}</div>
-      <div class={styles.title}>{title}</div>
-      <div class={styles.duration}>{secondsToMMSS(duration)}</div>
+    <div class={styles.wrapper} onClick={play(props.id)}>
+      <div class={styles.index}>{props.index + 1}</div>
+      <div class={styles.title}>{props.title}</div>
+      <div class={styles.duration}>{secondsToMMSS(props.duration)}</div>
     </div>
   );
 }

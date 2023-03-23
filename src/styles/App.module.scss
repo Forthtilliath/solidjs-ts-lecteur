@@ -1,13 +1,19 @@
 .App {
   display: grid;
-  place-content: center;
-  min-height: 100dvh;
-}
-
-.main {
-  // padding-inline: var(--margin-main);
+  grid-template-columns: [sidebar] 300px [trackslist] 1fr;
+  grid-template-rows: [main] 1fr [footer] 80px;
+  gap: 0px 0px;
+  grid-template-areas:
+    "sidebar trackslist"
+    "footer footer";
 }
 
 .footer {
-  width: 100%;
+  grid-area: footer;
+}
+.sidebar {
+  grid-area: sidebar;
+}
+.trackslist {
+  grid-area: trackslist;
 }

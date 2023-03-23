@@ -2,4 +2,7 @@
     // max-width: 1200px;
     // width: 100%;
     // width: min(100dvw, 1200px);
+
+    overflow-y: auto;
+    height: calc(100dvh - 80px);
 }

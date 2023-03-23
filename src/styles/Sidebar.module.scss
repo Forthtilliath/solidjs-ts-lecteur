@@ -1,0 +1,70 @@
+@import "./variables";
+
+.wrapper {
+  height: 100%;
+
+  padding: 2rem;
+  box-shadow: 2px 0px 5px 1px $color-blue-dark;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: $color-white;
+  // color: $color-blue-light;
+
+  .icon {
+    --size: 3em;
+    animation: rotate 1.5s linear infinite;
+    width: var(--size);
+    height: var(--size);
+  }
+
+  &:hover .icon {
+    animation-play-state: paused;
+  }
+
+  .title {
+    font-size: 3rem;
+  }
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+
+  .cover {
+    margin-top: 2rem;
+    box-shadow: 0 0 5px 2px $color-blue-light;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    width: 200px;
+    height: 200px;
+
+    .image {
+      width: 100%;
+    }
+  }
+
+  .infos {
+    text-align: center;
+
+    .title {
+      font-weight: bold;
+    }
+
+    .artist {
+      font-size: 0.9rem;
+    }
+  }
+}
