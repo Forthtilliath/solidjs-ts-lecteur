@@ -11,3 +11,8 @@ type IntRange<F extends number, T extends number> = Exclude<
 >;
 
 type Number_0_to_100 = IntRange<0, 101>;
+
+type TInputEvent = (InputEvent | Event) & {
+  currentTarget: HTMLInputElement;
+  target: Element;
+};

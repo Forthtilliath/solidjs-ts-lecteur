@@ -14,8 +14,12 @@
 
 .wrapper {
   border-radius: 0.25rem;
+  &.active {
+    background: hsla(0 0% 0% / 20%);
+    font-weight: 600;
+  }
   &:hover {
-    background: hsla(0, 0deg, 0%, 0.3);
+    background: hsla(0 0% 0% / 30%);
     cursor: pointer;
   }
 }
@@ -25,8 +29,23 @@
   text-align: right;
 }
 
-.title {
+.title,
+.artist,
+.album {
   width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+@media (width < 1400px) {
+  .album {
+    display: none;
+  }
+}
+@media (width < 1050px) {
+  .artist {
+    display: none;
+  }
 }
 
 .duration {

@@ -212,7 +212,7 @@ export const albums: Albums = [
   {
     id: 3,
     name: "Dark, A Netflix Original Series",
-    filename: "ab67616d00001e026eee3c9ac03d4eb46dcb717d.jpeg",
+    filename: "ab67616d00001e027d214ba606fa1cd6d3dafcb0.jpeg",
   },
   {
     id: 4,

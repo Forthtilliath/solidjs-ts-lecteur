@@ -144,6 +144,32 @@ export function BsRepeat(props: Props) {
   );
 }
 
+export function BsRepeatAll(props: Props) {
+  return (
+    <svg
+      fill="currentColor"
+      stroke-width="0"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 16 16"
+      height={`${props.size ?? 1}em`}
+      width={`${props.size ?? 1}em`}
+      style="overflow: visible;"
+      {...props}
+    >
+      <text
+        style="fill: rgba(255, 255, 255, 0.84); font-family: Lemon; font-size: 0.510773px; user-select: none; line-height: 0.612927px; text-transform: uppercase; white-space: pre;"
+        transform="matrix(8.353591, 0, 0, 9.787062, -72.541512, -44.156685)"
+        x="9.173"
+        y="5.488"
+      >
+        All
+      </text>
+
+      <path d="M11 4v1.466a.25.25 0 0 0 .41.192l2.36-1.966a.25.25 0 0 0 0-.384l-2.36-1.966a.25.25 0 0 0-.41.192V3H5a5 5 0 0 0-4.48 7.223.5.5 0 0 0 .896-.446A4 4 0 0 1 5 4h6Zm4.48 1.777a.5.5 0 0 0-.896.446A4 4 0 0 1 11 12H5.001v-1.466a.25.25 0 0 0-.41-.192l-2.36 1.966a.25.25 0 0 0 0 .384l2.36 1.966a.25.25 0 0 0 .41-.192V13h6a5 5 0 0 0 4.48-7.223Z"></path>
+    </svg>
+  );
+}
+
 export function FaSolidVolumeOff(props: Props) {
   return (
     <svg

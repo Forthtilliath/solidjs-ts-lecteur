@@ -7,40 +7,44 @@ import {
   useContext,
 } from "solid-js";
 import { tracks, albums } from "@utils/data";
+import { REPEAT } from "@utils/constants";
 
 export type PlayerContextModel = {
   current: Accessor<TrackAlbum | undefined>;
   isPlaying: Accessor<boolean>;
-  repeat: Accessor<"off" | "one" | "all">;
+  repeat: Accessor<RepeatRange>;
   play: (id: number) => (_event: MouseEvent) => void;
   toggle: () => void;
   volume: Accessor<Number_0_to_100>;
-  setVolume: Setter<Number_0_to_100>;
+  setVolume: (e: TInputEvent) => void;
   muted: Accessor<boolean>;
-  setMuted: Setter<boolean>;
-  //   pause: () => void;
-  //   stop: () => void;
+  toggleMuted: () => boolean;
+  toggleRepeat: () => RepeatRange;
+  shuffle: Accessor<boolean>;
+  toggleShuffle: () => boolean;
   //   previous: () => void;
   //   next: () => void;
   //   repeatOff: () => void;
   //   repeatOne: () => void;
   //   repeatAll: () => void;
   //   shuffle: () => void;
-  //   volume: () => void;
 };
-// export type PlayerContextModel = ReturnType<>
 
 export type PlayerContextProps = {};
 
 const PlayerContext = createContext<PlayerContextModel>();
 const tracksList = addAlbums(tracks);
 
+const REPEATS = Object.values(REPEAT);
+
 export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   const [current, setCurrent] = createSignal<TrackAlbum>();
+  const [timer, setTimer] = createSignal(0);
   const [isPlaying, setIsPlaying] = createSignal(false);
-  const [repeat, setRepeat] = createSignal<"off" | "one" | "all">("off");
-  const [volume, setVolume] = createSignal<Number_0_to_100>(50);
+  const [repeat, setRepeat] = createSignal<RepeatRange>(0);
+  const [volume, _setVolume] = createSignal<Number_0_to_100>(50);
   const [muted, setMuted] = createSignal(false);
+  const [shuffle, setShuffle] = createSignal(false);
 
   const play = (id: number) => {
     return function (_event: MouseEvent) {
@@ -54,9 +58,20 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
       setIsPlaying(true);
     };
   };
+
   const toggle = () => {
     if (current() === undefined) return;
     setIsPlaying((prev) => !prev);
+  };
+
+  const toggleMuted = () => setMuted((prev) => !prev);
+  const toggleShuffle = () => setShuffle((prev) => !prev);
+
+  const toggleRepeat = () =>
+    setRepeat((prev) => ((prev + 1) % REPEATS.length) as RepeatRange);
+
+  const setVolume = (e: TInputEvent) => {
+    _setVolume(Number(e.currentTarget.value) as Number_0_to_100);
   };
   //   const stop = () => {};
   //   const previous = () => {};
@@ -76,7 +91,10 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
     volume,
     setVolume,
     muted,
-    setMuted,
+    toggleMuted,
+    toggleRepeat,
+    shuffle,
+    toggleShuffle,
     // pause,
     // stop,
     // previous,
