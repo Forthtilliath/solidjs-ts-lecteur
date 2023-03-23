@@ -25,11 +25,4 @@ const App: Component = () => {
   );
 };
 
-// function launchTrack(id: number) {
-//   return function (_event: MouseEvent) {
-//     console.log("Launching track...", id);
-//   };
-// }
-
-// export type LaunchTrackType = typeof launchTrack;
 export default App;

@@ -1,6 +1,7 @@
 import styles from "@styles/Sidebar.module.scss";
 import { BsDiscFill } from "@features/Icons";
 import { usePlayer } from "@assets/contexts/playerContext";
+import { Show } from "solid-js";
 
 export function Sidebar() {
   const { current } = usePlayer();
@@ -8,11 +9,11 @@ export function Sidebar() {
   return (
     <div class={styles.wrapper}>
       <div class={styles.logo}>
-        <BsDiscFill class={styles.icon} />
+        <BsDiscFill class={styles.icon} size={3} />
         <h1 class={styles.title}>Spotube</h1>
       </div>
 
-      {current() && (
+      <Show when={current()}>
         <div class={styles.track}>
           <div class={styles.cover}>
             <img
@@ -26,7 +27,7 @@ export function Sidebar() {
             <p class={styles.artist}>{current()?.artist}</p>
           </div>
         </div>
-      )}
+      </Show>
     </div>
   );
 }
