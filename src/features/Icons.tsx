@@ -157,7 +157,7 @@ export function BsRepeatAll(props: Props) {
       {...props}
     >
       <text
-        style="fill: rgba(255, 255, 255, 0.84); font-family: Lemon; font-size: 0.510773px; user-select: none; line-height: 0.612927px; text-transform: uppercase; white-space: pre;"
+        style="font-family: Lemon; font-size: 0.510773px; user-select: none; line-height: 0.612927px; text-transform: uppercase; white-space: pre;"
         transform="matrix(8.353591, 0, 0, 9.787062, -72.541512, -44.156685)"
         x="9.173"
         y="5.488"
@@ -252,6 +252,40 @@ export function FaSolidVolumeXmark(props: Props) {
       {...props}
     >
       <path d="M301.2 34.85c-11.5-5.188-25.02-3.122-34.44 5.253L131.8 160H48c-26.51 0-48 21.49-48 47.1v95.1c0 26.51 21.49 47.1 48 47.1h83.84l134.9 119.9a32.023 32.023 0 0 0 21.26 8.094c4.438 0 8.972-.937 13.17-2.844 11.5-5.156 18.82-16.56 18.82-29.16V64c-.89-12.59-7.29-24-18.79-29.15zM513.9 255.1l47.03-47.03c9.375-9.375 9.375-24.56 0-33.94s-24.56-9.375-33.94 0L480 222.1 432.1 175c-9.375-9.375-24.56-9.375-33.94 0s-9.375 24.56 0 33.94l47.03 47.03L398.16 303c-9.375 9.375-9.375 24.56 0 33.94 9.373 9.373 24.56 9.381 33.94 0L480 289.9l47.03 47.03c9.373 9.373 24.56 9.381 33.94 0 9.375-9.375 9.375-24.56 0-33.94L513.9 255.1z"></path>
+    </svg>
+  );
+}
+
+export function FaSolidPlay(props: Props) {
+  return (
+    <svg
+      fill="currentColor"
+      stroke-width="0"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 384 512"
+      height={`${props.size ?? 1}em`}
+      width={`${props.size ?? 1}em`}
+      style="overflow: visible;"
+      {...props}
+    >
+      <path d="M361 215c14.3 8.8 23 24.3 23 41s-8.7 32.2-23 40.1l-287.97 176c-14.82 9.9-33.37 10.3-48.51 1.8A48.02 48.02 0 0 1 0 432V80a48.02 48.02 0 0 1 24.52-41.87 48.019 48.019 0 0 1 48.51.91L361 215z"></path>
+    </svg>
+  );
+}
+
+export function FaSolidPause(props: Props) {
+  return (
+    <svg
+      fill="currentColor"
+      stroke-width="0"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 320 512"
+      height={`${props.size ?? 1}em`}
+      width={`${props.size ?? 1}em`}
+      style="overflow: visible;"
+      {...props}
+    >
+      <path d="M272 63.1h-32c-26.51 0-48 21.49-48 47.1v288c0 26.51 21.49 48 48 48l32 1.8c26.51 0 48-21.49 48-48V112c0-26.51-21.5-48.9-48-48.9zm-192 0H48c-26.51 0-48 21.49-48 48v288C0 426.5 21.49 448 48 448h32c26.51 0 48-21.49 48-48V112c0-26.51-21.5-48.9-48-48.9z"></path>
     </svg>
   );
 }

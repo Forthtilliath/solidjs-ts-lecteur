@@ -31,7 +31,9 @@ export function TrackHeader() {
     <div class={styles.header}>
       <div class={styles.index}>#</div>
       <div class={styles.title}>Titre</div>
-      <div class={styles.duration}>mm:ss</div>
+      <div class={styles.artist}>Artist</div>
+      <div class={styles.album}>Album</div>
+      <div class={styles.duration}>Durée</div>
     </div>
   );
 }

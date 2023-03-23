@@ -16,13 +16,17 @@ import {
 } from "@features/Icons";
 import styles from "@styles/player/Controls.module.scss";
 import { REPEAT } from "@utils/constants";
-import { createEffect, Match, Show, Switch } from "solid-js";
+import { secondsToMMSS } from "@utils/methods/duration";
+import { createEffect, Match, onCleanup, Show, Switch } from "solid-js";
 
 export function Controls() {
   const {
     current,
+    play,
+    previous,
+    next,
     isPlaying,
-    toggle,
+    togglePlay,
     volume,
     setVolume,
     muted,
@@ -31,12 +35,24 @@ export function Controls() {
     toggleRepeat,
     shuffle,
     toggleShuffle,
+    timer,
+    setTimer,
+    timerLeft,
+    toggleTimerLeft,
   } = usePlayer();
   let audioRef: HTMLAudioElement;
 
+  let sti: number;
+  onCleanup(() => clearInterval(sti));
+
   createEffect(() => {
-    if (current() && isPlaying()) audioRef.play();
-    else audioRef.pause();
+    if (current() && isPlaying()) {
+      audioRef.play();
+      sti = setInterval(() => setTimer((timer) => timer + 0.1), 100);
+    } else {
+      audioRef.pause();
+      clearInterval(sti);
+    }
   });
 
   createEffect(() => {
@@ -49,28 +65,49 @@ export function Controls() {
   return (
     <div class={styles.wrapper}>
       <div class={styles.controls}>
-        <div>
+        <div onClick={previous}>
           <BiSolidSkipPreviousCircle size={3} />
         </div>
-        <div onClick={toggle}>
+        <div onClick={togglePlay}>
           <Show when={isPlaying()} fallback={<FaSolidCirclePlay size={3} />}>
             <FaSolidCirclePause size={3} />
           </Show>
         </div>
-        <div>
+        <div onClick={next}>
           <BiSolidSkipNextCircle size={3} />
         </div>
       </div>
       <div class={styles.status}>
-        <Show when={current()}>
-          <p class={styles.infos}>
-            {current()?.title} - {current()?.artist}
-          </p>
-          <div class={styles.playbar}>
-            <div class={styles.timer}>00:00</div>
-            <input type="range" min="0" max="100" step="1" class={styles.bar} />
-            <div class={styles.timer}>00:00</div>
-          </div>
+        <Show when={current()} keyed>
+          {(current: TrackAlbum) => (
+            <>
+              <p class={styles.infos}>
+                {current.title} - {current.artist}
+              </p>
+              <div class={styles.playbar}>
+                <div class={styles.timer}>{secondsToMMSS(timer())}</div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="1"
+                  class={styles.bar}
+                />
+                <Show
+                  when={timerLeft()}
+                  fallback={
+                    <div class={styles.timer} onClick={toggleTimerLeft}>
+                      {secondsToMMSS(Math.ceil(current.duration - timer()))}
+                    </div>
+                  }
+                >
+                  <div class={styles.timer} onClick={toggleTimerLeft}>
+                    {secondsToMMSS(current.duration)}
+                  </div>
+                </Show>
+              </div>
+            </>
+          )}
         </Show>
         <audio
           src={"/src/assets/tracks/" + current()?.filename}

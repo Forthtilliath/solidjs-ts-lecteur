@@ -1,6 +1,6 @@
 .App {
   display: grid;
-  grid-template-columns: [sidebar] 300px [trackslist] 1fr;
+  grid-template-columns: [sidebar] 400px [trackslist] 1fr;
   grid-template-rows: [main] 1fr [footer] 80px;
   gap: 0px 0px;
   grid-template-areas:

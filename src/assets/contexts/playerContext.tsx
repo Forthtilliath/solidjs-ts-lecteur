@@ -14,16 +14,20 @@ export type PlayerContextModel = {
   isPlaying: Accessor<boolean>;
   repeat: Accessor<RepeatRange>;
   play: (id: number) => (_event: MouseEvent) => void;
-  toggle: () => void;
+  togglePlay: () => void;
   volume: Accessor<Number_0_to_100>;
   setVolume: (e: TInputEvent) => void;
   muted: Accessor<boolean>;
-  toggleMuted: () => boolean;
-  toggleRepeat: () => RepeatRange;
+  toggleMuted: () => void;
+  toggleRepeat: () => void;
   shuffle: Accessor<boolean>;
-  toggleShuffle: () => boolean;
-  //   previous: () => void;
-  //   next: () => void;
+  toggleShuffle: () => void;
+  timer: Accessor<number>;
+  setTimer: Setter<number>;
+  timerLeft: Accessor<boolean>;
+  toggleTimerLeft: () => void;
+  previous: () => void;
+  next: () => void;
   //   repeatOff: () => void;
   //   repeatOne: () => void;
   //   repeatAll: () => void;
@@ -39,7 +43,9 @@ const REPEATS = Object.values(REPEAT);
 
 export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   const [current, setCurrent] = createSignal<TrackAlbum>();
+  const [trackIndex, setTrackIndex] = createSignal(-1);
   const [timer, setTimer] = createSignal(0);
+  const [timerLeft, setTimerLeft] = createSignal(false);
   const [isPlaying, setIsPlaying] = createSignal(false);
   const [repeat, setRepeat] = createSignal<RepeatRange>(0);
   const [volume, _setVolume] = createSignal<Number_0_to_100>(50);
@@ -49,6 +55,7 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   const play = (id: number) => {
     return function (_event: MouseEvent) {
       console.log("Launching track...", id);
+      if (current()?.id === id) return;
 
       const track = tracksList.find((track) => track.id === id);
       if (track === undefined) {
@@ -56,26 +63,50 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
       }
       setCurrent(track);
       setIsPlaying(true);
+      setTimer(0);
     };
   };
 
-  const toggle = () => {
-    if (current() === undefined) return;
+  const togglePlay = () => {
+    if (current() === undefined) {
+      setCurrent(tracksList[0]);
+      setTrackIndex(0);
+    }
     setIsPlaying((prev) => !prev);
   };
 
-  const toggleMuted = () => setMuted((prev) => !prev);
-  const toggleShuffle = () => setShuffle((prev) => !prev);
-
-  const toggleRepeat = () =>
+  const toggleMuted = () => {
+    setMuted((prev) => !prev);
+  };
+  const toggleShuffle = () => {
+    setShuffle((prev) => !prev);
+  };
+  const toggleTimerLeft = () => {
+    setTimerLeft((prev) => !prev);
+  };
+  const toggleRepeat = () => {
     setRepeat((prev) => ((prev + 1) % REPEATS.length) as RepeatRange);
+  };
 
   const setVolume = (e: TInputEvent) => {
     _setVolume(Number(e.currentTarget.value) as Number_0_to_100);
   };
-  //   const stop = () => {};
-  //   const previous = () => {};
-  //   const next = () => {};
+
+  const previous = () => {
+    setTrackIndex((prev) => {
+      const n = (prev - 1 + tracksList.length) % tracksList.length;
+      setCurrent(tracksList[n]);
+      return n;
+    });
+  };
+  const next = () => {
+    setTrackIndex((prev) => {
+      const n = (prev + 1 + tracksList.length) % tracksList.length;
+      setCurrent(tracksList[n]);
+      return n;
+    });
+  };
+  
   //   const repeatOff = () => {};
   //   const repeatOne = () => {};
   //   const repeatAll = () => {};
@@ -87,7 +118,7 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
     isPlaying,
     repeat,
     play,
-    toggle,
+    togglePlay,
     volume,
     setVolume,
     muted,
@@ -95,10 +126,14 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
     toggleRepeat,
     shuffle,
     toggleShuffle,
+    timer,
+    setTimer,
+    timerLeft,
+    toggleTimerLeft,
     // pause,
     // stop,
-    // previous,
-    // next,
+    previous,
+    next,
     // repeatOff,
     // repeatOne,
     // repeatAll,

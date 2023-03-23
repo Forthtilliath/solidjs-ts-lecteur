@@ -33,6 +33,7 @@
 .artist,
 .album {
   width: 100%;
+  max-width: 500px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -50,5 +51,5 @@
 
 .duration {
   width: 5ch;
-  font-family: $font-duration;
+  // font-family: $font-duration;
 }
