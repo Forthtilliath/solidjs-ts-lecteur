@@ -13,7 +13,7 @@ export type PlayerContextModel = {
   current: Accessor<TrackAlbum | undefined>;
   isPlaying: Accessor<boolean>;
   repeat: Accessor<RepeatRange>;
-  play: (id: number) => (_event: MouseEvent) => void;
+  play: (index: number) => void;
   togglePlay: () => void;
   volume: Accessor<Number_0_to_100>;
   setVolume: (e: TInputEvent) => void;
@@ -52,19 +52,17 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   const [muted, setMuted] = createSignal(false);
   const [shuffle, setShuffle] = createSignal(false);
 
-  const play = (id: number) => {
-    return function (_event: MouseEvent) {
-      console.log("Launching track...", id);
-      if (current()?.id === id) return;
+  const launchTrack = (track: TrackAlbum) => {
+    setCurrent(track);
+    setIsPlaying(true);
+    setTimer(0);
+  };
 
-      const track = tracksList.find((track) => track.id === id);
-      if (track === undefined) {
-        throw new Error("Track not found");
-      }
-      setCurrent(track);
-      setIsPlaying(true);
-      setTimer(0);
-    };
+  const play = (index: number) => {
+    console.log("Launching track...", tracksList[index].id);
+
+    setTrackIndex(index);
+    launchTrack(tracksList[index]);
   };
 
   const togglePlay = () => {
@@ -74,7 +72,6 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
     }
     setIsPlaying((prev) => !prev);
   };
-
   const toggleMuted = () => {
     setMuted((prev) => !prev);
   };
@@ -94,19 +91,19 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
 
   const previous = () => {
     setTrackIndex((prev) => {
-      const n = (prev - 1 + tracksList.length) % tracksList.length;
-      setCurrent(tracksList[n]);
-      return n;
+      const index = (prev - 1 + tracksList.length) % tracksList.length;
+      launchTrack(tracksList[index]);
+      return index;
     });
   };
   const next = () => {
     setTrackIndex((prev) => {
-      const n = (prev + 1 + tracksList.length) % tracksList.length;
-      setCurrent(tracksList[n]);
-      return n;
+      const index = (prev + 1 + tracksList.length) % tracksList.length;
+      launchTrack(tracksList[index]);
+      return index;
     });
   };
-  
+
   //   const repeatOff = () => {};
   //   const repeatOne = () => {};
   //   const repeatAll = () => {};

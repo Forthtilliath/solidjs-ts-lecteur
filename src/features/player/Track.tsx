@@ -9,13 +9,15 @@ type Props = TrackAlbum & {
 
 export function Track(props: Props) {
   const { current, play } = usePlayer();
+
+  const handlePlay = (index: number) => (_event?: MouseEvent) => play(index);
   
   return (
     <div
       class={classNames(styles.wrapper, {
         [styles.active]: current()?.id === props.id,
       })}
-      onClick={play(props.id)}
+      onClick={handlePlay(props.index)}
     >
       <div class={styles.index}>{props.index + 1}</div>
       <div class={styles.title}>{props.title}</div>

@@ -46,12 +46,12 @@ export function Controls() {
   onCleanup(() => clearInterval(sti));
 
   createEffect(() => {
+    clearInterval(sti);
     if (current() && isPlaying()) {
       audioRef.play();
       sti = setInterval(() => setTimer((timer) => timer + 0.1), 100);
     } else {
       audioRef.pause();
-      clearInterval(sti);
     }
   });
 
@@ -59,8 +59,6 @@ export function Controls() {
     if (muted()) audioRef.volume = 0;
     else audioRef.volume = volume() / 100;
   });
-
-  createEffect(() => console.log("volume", volume()));
 
   return (
     <div class={styles.wrapper}>
@@ -97,12 +95,12 @@ export function Controls() {
                   when={timerLeft()}
                   fallback={
                     <div class={styles.timer} onClick={toggleTimerLeft}>
-                      {secondsToMMSS(Math.ceil(current.duration - timer()))}
+                      {secondsToMMSS(current.duration)}
                     </div>
                   }
                 >
                   <div class={styles.timer} onClick={toggleTimerLeft}>
-                    {secondsToMMSS(current.duration)}
+                    {secondsToMMSS(Math.ceil(current.duration - timer()))}
                   </div>
                 </Show>
               </div>
