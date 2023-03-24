@@ -34,8 +34,9 @@ export function Controls() {
     player.setTimer(audioRef.currentTime);
   };
 
+  // ajouter la condition sur currentTrack permet de rappeler l'effect quand il change
   createEffect(() => {
-    if (player.isPlaying()) {
+    if (player.currentTrack() && player.isPlaying()) {
       audioRef.play();
     } else {
       audioRef.pause();

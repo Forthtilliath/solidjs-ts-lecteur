@@ -1,6 +1,7 @@
 import {
   Accessor,
   createContext,
+  createEffect,
   createMemo,
   createSignal,
   ParentProps,
@@ -90,7 +91,7 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
     if (currentIndex() === -1) {
       play(0);
     } else {
-      setIsPlaying(prev => !prev);
+      setIsPlaying((prev) => !prev);
     }
   };
   const toggleMuted = () => {
