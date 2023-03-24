@@ -20,28 +20,7 @@ import { secondsToMMSS } from "@utils/methods/duration";
 import { createEffect, Match, onCleanup, Show, Switch } from "solid-js";
 
 export function Controls() {
-  const {
-    currentIndex,
-    currentTrack,
-    play,
-    previousIndexes: previousTracks,
-    previous,
-    next,
-    isPlaying,
-    togglePlay,
-    volume,
-    setVolume,
-    muted,
-    toggleMuted,
-    repeat,
-    toggleRepeat,
-    shuffle,
-    toggleShuffle,
-    timer,
-    setTimer,
-    timerLeft,
-    toggleTimerLeft,
-  } = usePlayer();
+  const player = usePlayer();
   let audioRef: HTMLAudioElement;
 
   let sti: number;
@@ -49,17 +28,17 @@ export function Controls() {
 
   createEffect(() => {
     clearInterval(sti);
-    if (currentIndex() !== -1 && isPlaying()) {
+    if (player.currentIndex() !== -1 && player.isPlaying()) {
       audioRef.play();
-      sti = setInterval(() => setTimer((timer) => timer + 0.1), 100);
+      sti = setInterval(() => player.setTimer((timer) => timer + 0.1), 100);
     } else {
       audioRef.pause();
     }
   });
 
   createEffect(() => {
-    if (muted()) audioRef.volume = 0;
-    else audioRef.volume = volume() / 100;
+    if (player.muted()) audioRef.volume = 0;
+    else audioRef.volume = player.volume() / 100;
   });
 
   return (
@@ -68,29 +47,29 @@ export function Controls() {
         <button
           type="button"
           class={styles.btn}
-          onClick={previous}
-          disabled={previousTracks().length === 0}
+          onClick={player.previous}
+          disabled={player.previousIndexes().length === 0}
         >
           <BiSolidSkipPreviousCircle size={3} />
         </button>
-        <button type="button" class={styles.btn} onClick={togglePlay}>
-          <Show when={isPlaying()} fallback={<FaSolidCirclePlay size={3} />}>
+        <button type="button" class={styles.btn} onClick={player.togglePlay}>
+          <Show when={player.isPlaying()} fallback={<FaSolidCirclePlay size={3} />}>
             <FaSolidCirclePause size={3} />
           </Show>
         </button>
-        <button type="button" class={styles.btn} onClick={next}>
+        <button type="button" class={styles.btn} onClick={player.next}>
           <BiSolidSkipNextCircle size={3} />
         </button>
       </div>
       <div class={styles.status}>
-        <Show when={currentTrack()} keyed>
+        <Show when={player.currentTrack()} keyed>
           {(current: TrackAlbum ) => (
             <>
               <p class={styles.infos}>
                 {current.title} - {current.artist}
               </p>
               <div class={styles.playbar}>
-                <div class={styles.timer}>{secondsToMMSS(timer())}</div>
+                <div class={styles.timer}>{secondsToMMSS(player.timer())}</div>
                 <input
                   type="range"
                   min="0"
@@ -99,15 +78,15 @@ export function Controls() {
                   class={styles.bar}
                 />
                 <Show
-                  when={timerLeft()}
+                  when={player.timerLeft()}
                   fallback={
-                    <div class={styles.timer} onClick={toggleTimerLeft}>
+                    <div class={styles.timer} onClick={player.toggleTimerLeft}>
                       {secondsToMMSS(current.duration)}
                     </div>
                   }
                 >
-                  <div class={styles.timer} onClick={toggleTimerLeft}>
-                    {secondsToMMSS(Math.ceil(current.duration - timer()))}
+                  <div class={styles.timer} onClick={player.toggleTimerLeft}>
+                    {secondsToMMSS(Math.ceil(current.duration - player.timer()))}
                   </div>
                 </Show>
               </div>
@@ -115,48 +94,48 @@ export function Controls() {
           )}
         </Show>
         <audio
-          src={"/src/assets/tracks/" + currentTrack()?.filename}
+          src={"/src/assets/tracks/" + player.currentTrack()?.filename}
           ref={audioRef!}
         />
       </div>
       <div class={styles.features}>
-        <button type="button" class={styles.btn} onClick={toggleRepeat}>
+        <button type="button" class={styles.btn} onClick={player.toggleRepeat}>
           <Switch>
-            <Match when={repeat() === REPEAT.OFF}>
+            <Match when={player.repeat() === REPEAT.OFF}>
               <BsRepeat size={2} class={styles.disabled} />
             </Match>
-            <Match when={repeat() === REPEAT.ONE}>
+            <Match when={player.repeat() === REPEAT.ONE}>
               <BsRepeat1 size={2} />
             </Match>
-            <Match when={repeat() === REPEAT.ALL}>
+            <Match when={player.repeat() === REPEAT.ALL}>
               <BsRepeatAll size={2} />
             </Match>
           </Switch>
         </button>
-        <button type="button" class={styles.btn} onClick={toggleShuffle}>
+        <button type="button" class={styles.btn} onClick={player.toggleShuffle}>
           <Show
-            when={shuffle()}
+            when={player.shuffle()}
             fallback={<BiRegularShuffle size={2} class={styles.disabled} />}
           >
             <BiRegularShuffle size={2} />
           </Show>
         </button>
-        <button type="button" class={styles.btn} onClick={toggleMuted}>
+        <button type="button" class={styles.btn} onClick={player.toggleMuted}>
           <Show
-            when={!muted()}
+            when={!player.muted()}
             fallback={<FaSolidVolumeXmark size={2} class={styles.disabled} />}
           >
             <Switch>
-              <Match when={volume() === 0}>
+              <Match when={player.volume() === 0}>
                 <FaSolidVolumeOff size={2} />
               </Match>
-              <Match when={volume() <= 33}>
+              <Match when={player.volume() <= 33}>
                 <FaSolidVolumeLow size={2} />
               </Match>
-              <Match when={volume() <= 66}>
+              <Match when={player.volume() <= 66}>
                 <FaSolidVolumeMedium size={2} />
               </Match>
-              <Match when={volume() <= 100}>
+              <Match when={player.volume() <= 100}>
                 <FaSolidVolumeHigh size={2} />
               </Match>
             </Switch>
@@ -168,8 +147,8 @@ export function Controls() {
             min="0"
             max="100"
             step="1"
-            value={volume()}
-            onChange={setVolume}
+            value={player.volume()}
+            onChange={player.setVolume}
           />
         </div>
       </div>

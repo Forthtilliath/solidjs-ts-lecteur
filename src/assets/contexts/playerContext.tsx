@@ -63,7 +63,7 @@ const REPEATS = Object.values(REPEAT);
 
 export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   const [currentIndex, setCurrentIndex] = createSignal(-1);
-  const [previousTracks, setPreviousTracks] = createSignal<number[]>([]);
+  const [previousIndexes, setPreviousIndexes] = createSignal<number[]>([]);
   const [timer, setTimer] = createSignal(0);
   const [timerLeft, setTimerLeft] = createSignal(false);
   const [isPlaying, setIsPlaying] = createSignal(false);
@@ -79,7 +79,7 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
 
   const play = (index: number) => {
     setCurrentIndex((prevIndex) => {
-      if (prevIndex !== -1) setPreviousTracks((prev) => prev.concat(prevIndex));
+      if (prevIndex !== -1) setPreviousIndexes((prev) => prev.concat(prevIndex));
       return index;
     });
     setIsPlaying(true);
@@ -123,7 +123,7 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   };
 
   const previous = () => {
-    setPreviousTracks((prevIndexes) => {
+    setPreviousIndexes((prevIndexes) => {
       const last = prevIndexes.pop();
       if (last !== undefined) play(last);
       return prevIndexes;
@@ -140,7 +140,7 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   const value: PlayerContextModel = {
     currentIndex,
     currentTrack,
-    previousIndexes: previousTracks,
+    previousIndexes,
     previous,
     next,
     play,
