@@ -1,6 +1,8 @@
 import {
   Accessor,
   createContext,
+  createEffect,
+  createMemo,
   createSignal,
   ParentProps,
   Setter,
@@ -10,9 +12,13 @@ import { tracks, albums } from "@utils/data";
 import { REPEAT } from "@utils/constants";
 
 export type PlayerContextModel = {
+  /** Index du track en cours d'écoute */
+  currentIndex: Accessor<number>;
   /** Track en cours d'écoute */
-  current: Accessor<TrackAlbum | undefined>;
-  /** Met la musique précédente (prend en compte ``shuffle`` et ``repeat``) */
+  currentTrack: Accessor<TrackAlbum | undefined>;
+  /** Tableau contenant les musiques précédentes */
+  previousIndexes: Accessor<number[]>;
+  /** Met la musique précédente (enregistrée dans previousTracks) */
   previous: () => void;
   /** Met la musique suivante (prend en compte ``shuffle`` et ``repeat``) */
   next: () => void;
@@ -56,8 +62,8 @@ const tracklist = addAlbums(tracks);
 const REPEATS = Object.values(REPEAT);
 
 export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
-  const [current, setCurrent] = createSignal<TrackAlbum>();
-  const [, setTrackIndex] = createSignal(-1);
+  const [currentIndex, setCurrentIndex] = createSignal(-1);
+  const [previousTracks, setPreviousTracks] = createSignal<number[]>([]);
   const [timer, setTimer] = createSignal(0);
   const [timerLeft, setTimerLeft] = createSignal(false);
   const [isPlaying, setIsPlaying] = createSignal(false);
@@ -66,25 +72,26 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   const [muted, setMuted] = createSignal(false);
   const [shuffle, setShuffle] = createSignal(false);
 
-  const launchTrack = (track: TrackAlbum) => {
-    setCurrent(track);
+  const currentTrack = createMemo(() => {
+    if (currentIndex() === -1) return undefined;
+    return tracklist[currentIndex()];
+  });
+
+  const play = (index: number) => {
+    setCurrentIndex((prevIndex) => {
+      if (prevIndex !== -1) setPreviousTracks((prev) => prev.concat(prevIndex));
+      return index;
+    });
     setIsPlaying(true);
     setTimer(0);
   };
 
-  const play = (index: number) => {
-    console.log("Launching track...", tracklist[index].id);
-
-    setTrackIndex(index);
-    launchTrack(tracklist[index]);
-  };
-
   const togglePlay = () => {
-    if (current() === undefined) {
-      setCurrent(tracklist[0]);
-      setTrackIndex(0);
+    if (currentIndex() === -1) {
+      play(0);
+    } else {
+      setIsPlaying(false);
     }
-    setIsPlaying((prev) => !prev);
   };
   const toggleMuted = () => {
     setMuted((prev) => !prev);
@@ -116,23 +123,24 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   };
 
   const previous = () => {
-    setTrackIndex((prev) => {
-      const index =
-        (prev - randomIndex() + tracklist.length) % tracklist.length;
-      launchTrack(tracklist[index]);
-      return index;
+    setPreviousTracks((prevIndexes) => {
+      const last = prevIndexes.pop();
+      if (last !== undefined) play(last);
+      return prevIndexes;
     });
   };
   const next = () => {
-    setTrackIndex((prev) => {
-      const index = (prev + randomIndex()) % tracklist.length;
-      launchTrack(tracklist[index]);
+    setCurrentIndex((prevIndex) => {
+      const index = (prevIndex + randomIndex()) % tracklist.length;
+      play(index);
       return index;
     });
   };
 
   const value: PlayerContextModel = {
-    current,
+    currentIndex,
+    currentTrack,
+    previousIndexes: previousTracks,
     previous,
     next,
     play,

@@ -4,7 +4,7 @@ import { usePlayer } from "@assets/contexts/playerContext";
 import { Show } from "solid-js";
 
 export function Sidebar() {
-  const { current, togglePlay, isPlaying } = usePlayer();
+  const { currentTrack, togglePlay, isPlaying } = usePlayer();
 
   return (
     <div class={styles.wrapper}>
@@ -13,11 +13,11 @@ export function Sidebar() {
         <h1 class={styles.title}>Spotube</h1>
       </div>
 
-      <Show when={current()}>
+      <Show when={currentTrack()}>
         <div class={styles.track}>
           <div class={styles.cover} onClick={togglePlay}>
             <img
-              src={"/src/assets/covers/" + current()?.album.filename}
+              src={"/src/assets/covers/" + currentTrack()?.album.filename}
               alt="Couverture de l'album"
               class={styles.image}
             />
@@ -28,8 +28,8 @@ export function Sidebar() {
             </div>
           </div>
           <div class={styles.infos}>
-            <p class={styles.title}>{current()?.title}</p>
-            <p class={styles.artist}>{current()?.artist}</p>
+            <p class={styles.title}>{currentTrack()?.title}</p>
+            <p class={styles.artist}>{currentTrack()?.artist}</p>
           </div>
         </div>
       </Show>

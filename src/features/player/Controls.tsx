@@ -21,8 +21,10 @@ import { createEffect, Match, onCleanup, Show, Switch } from "solid-js";
 
 export function Controls() {
   const {
-    current,
+    currentIndex,
+    currentTrack,
     play,
+    previousIndexes: previousTracks,
     previous,
     next,
     isPlaying,
@@ -47,7 +49,7 @@ export function Controls() {
 
   createEffect(() => {
     clearInterval(sti);
-    if (current() && isPlaying()) {
+    if (currentIndex() !== -1 && isPlaying()) {
       audioRef.play();
       sti = setInterval(() => setTimer((timer) => timer + 0.1), 100);
     } else {
@@ -63,21 +65,26 @@ export function Controls() {
   return (
     <div class={styles.wrapper}>
       <div class={styles.controls}>
-        <div onClick={previous}>
+        <button
+          type="button"
+          class={styles.btn}
+          onClick={previous}
+          disabled={previousTracks().length === 0}
+        >
           <BiSolidSkipPreviousCircle size={3} />
-        </div>
-        <div onClick={togglePlay}>
+        </button>
+        <button type="button" class={styles.btn} onClick={togglePlay}>
           <Show when={isPlaying()} fallback={<FaSolidCirclePlay size={3} />}>
             <FaSolidCirclePause size={3} />
           </Show>
-        </div>
-        <div onClick={next}>
+        </button>
+        <button type="button" class={styles.btn} onClick={next}>
           <BiSolidSkipNextCircle size={3} />
-        </div>
+        </button>
       </div>
       <div class={styles.status}>
-        <Show when={current()} keyed>
-          {(current: TrackAlbum) => (
+        <Show when={currentTrack()} keyed>
+          {(current: TrackAlbum ) => (
             <>
               <p class={styles.infos}>
                 {current.title} - {current.artist}
@@ -108,12 +115,12 @@ export function Controls() {
           )}
         </Show>
         <audio
-          src={"/src/assets/tracks/" + current()?.filename}
+          src={"/src/assets/tracks/" + currentTrack()?.filename}
           ref={audioRef!}
         />
       </div>
       <div class={styles.features}>
-        <div onClick={toggleRepeat}>
+        <button type="button" class={styles.btn} onClick={toggleRepeat}>
           <Switch>
             <Match when={repeat() === REPEAT.OFF}>
               <BsRepeat size={2} class={styles.disabled} />
@@ -125,16 +132,16 @@ export function Controls() {
               <BsRepeatAll size={2} />
             </Match>
           </Switch>
-        </div>
-        <div onClick={toggleShuffle}>
+        </button>
+        <button type="button" class={styles.btn} onClick={toggleShuffle}>
           <Show
             when={shuffle()}
             fallback={<BiRegularShuffle size={2} class={styles.disabled} />}
           >
             <BiRegularShuffle size={2} />
           </Show>
-        </div>
-        <div onClick={toggleMuted}>
+        </button>
+        <button type="button" class={styles.btn} onClick={toggleMuted}>
           <Show
             when={!muted()}
             fallback={<FaSolidVolumeXmark size={2} class={styles.disabled} />}
@@ -154,7 +161,7 @@ export function Controls() {
               </Match>
             </Switch>
           </Show>
-        </div>
+        </button>
         <div>
           <input
             type="range"
