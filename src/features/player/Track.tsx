@@ -10,7 +10,7 @@ type Props = TrackAlbum & {
 export function Track(props: Props) {
   const { currentTrack, play } = usePlayer();
 
-  const handlePlay = (index: number) => (_event?: MouseEvent) => play(index);
+  const handlePlay = (index: number) => (_event: MouseEvent) => play(index);
 
   return (
     <div

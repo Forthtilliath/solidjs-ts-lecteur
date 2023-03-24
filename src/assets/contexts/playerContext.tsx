@@ -1,7 +1,6 @@
 import {
   Accessor,
   createContext,
-  createEffect,
   createMemo,
   createSignal,
   ParentProps,
@@ -16,7 +15,7 @@ export type PlayerContextModel = {
   currentIndex: Accessor<number>;
   /** Track en cours d'écoute */
   currentTrack: Accessor<TrackAlbum | undefined>;
-  /** Tableau contenant les musiques précédentes */
+  /** Tableau contenant les index des musiques précédentes */
   previousIndexes: Accessor<number[]>;
   /** Met la musique précédente (enregistrée dans previousTracks) */
   previous: () => void;
@@ -79,7 +78,8 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
 
   const play = (index: number) => {
     setCurrentIndex((prevIndex) => {
-      if (prevIndex !== -1) setPreviousIndexes((prev) => prev.concat(prevIndex));
+      if (prevIndex !== -1)
+        setPreviousIndexes((prev) => prev.concat(prevIndex));
       return index;
     });
     setIsPlaying(true);
@@ -90,7 +90,7 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
     if (currentIndex() === -1) {
       play(0);
     } else {
-      setIsPlaying(false);
+      setIsPlaying(prev => !prev);
     }
   };
   const toggleMuted = () => {

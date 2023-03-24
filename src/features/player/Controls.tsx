@@ -17,20 +17,26 @@ import {
 import styles from "@styles/player/Controls.module.scss";
 import { REPEAT } from "@utils/constants";
 import { secondsToMMSS } from "@utils/methods/duration";
-import { createEffect, Match, onCleanup, Show, Switch } from "solid-js";
+import {
+  createEffect,
+  Match,
+  onCleanup,
+  onMount,
+  Show,
+  Switch,
+} from "solid-js";
 
 export function Controls() {
   const player = usePlayer();
   let audioRef: HTMLAudioElement;
 
-  let sti: number;
-  onCleanup(() => clearInterval(sti));
+  const handleTimeUpdate = (_event: Event) => {
+    player.setTimer(audioRef.currentTime);
+  };
 
   createEffect(() => {
-    clearInterval(sti);
-    if (player.currentIndex() !== -1 && player.isPlaying()) {
+    if (player.isPlaying()) {
       audioRef.play();
-      sti = setInterval(() => player.setTimer((timer) => timer + 0.1), 100);
     } else {
       audioRef.pause();
     }
@@ -39,6 +45,16 @@ export function Controls() {
   createEffect(() => {
     if (player.muted()) audioRef.volume = 0;
     else audioRef.volume = player.volume() / 100;
+  });
+
+  onMount(() => {
+    audioRef.addEventListener("ended", player.next);
+    audioRef.addEventListener("timeupdate", handleTimeUpdate);
+  });
+
+  onCleanup(() => {
+    audioRef.removeEventListener("ended", player.next);
+    audioRef.removeEventListener("timeupdate", handleTimeUpdate);
   });
 
   return (
@@ -53,7 +69,10 @@ export function Controls() {
           <BiSolidSkipPreviousCircle size={3} />
         </button>
         <button type="button" class={styles.btn} onClick={player.togglePlay}>
-          <Show when={player.isPlaying()} fallback={<FaSolidCirclePlay size={3} />}>
+          <Show
+            when={player.isPlaying()}
+            fallback={<FaSolidCirclePlay size={3} />}
+          >
             <FaSolidCirclePause size={3} />
           </Show>
         </button>
@@ -63,7 +82,7 @@ export function Controls() {
       </div>
       <div class={styles.status}>
         <Show when={player.currentTrack()} keyed>
-          {(current: TrackAlbum ) => (
+          {(current: TrackAlbum) => (
             <>
               <p class={styles.infos}>
                 {current.title} - {current.artist}
@@ -86,7 +105,9 @@ export function Controls() {
                   }
                 >
                   <div class={styles.timer} onClick={player.toggleTimerLeft}>
-                    {secondsToMMSS(Math.ceil(current.duration - player.timer()))}
+                    {secondsToMMSS(
+                      Math.ceil(current.duration - player.timer())
+                    )}
                   </div>
                 </Show>
               </div>
