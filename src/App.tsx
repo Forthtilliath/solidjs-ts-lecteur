@@ -1,7 +1,6 @@
 import type { Component } from "solid-js";
 
 import styles from "@styles/App.module.scss";
-import { tracks } from "@utils/data";
 import { TracksList } from "@features/player/TracksList";
 import { Controls } from "@features/player/Controls";
 import { Sidebar } from "@features/Sidebar";
@@ -15,7 +14,7 @@ const App: Component = () => {
           <Sidebar />
         </div>
         <main class={styles.trackslist}>
-          <TracksList tracks={tracks} />
+          <TracksList />
         </main>
         <footer class={styles.footer}>
           <Controls />

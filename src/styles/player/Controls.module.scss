@@ -17,15 +17,20 @@
 .controls {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 150px;
 }
 
 .features {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 240px;
 }
 
 .status {
-  width: 100%;
+  // width: 100%;
+  flex: 1;
   max-width: 800px;
   display: flex;
   flex-direction: column;
@@ -55,4 +60,87 @@
 .btn[disabled] {
   color: hsl(0deg 0% 100% / 25%);
   pointer-events: none;
+}
+
+input[type="range"] {
+  height: 22px;
+  appearance: none;
+  width: 100%;
+  background: transparent;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+$rangeHeight: 12px;
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 18px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 1px 1px 1px $color-blue-medium;
+  background: $color-blue-medium;
+  border-radius: 50px;
+}
+input[type="range"]::-webkit-slider-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 50px;
+  background: $color-blue-dark;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: 1px;
+}
+input[type="range"]:focus::-webkit-slider-runnable-track {
+  background: $color-blue-medium;
+}
+input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 18px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 1px 1px 1px $color-blue-medium;
+  background: $color-blue-medium;
+  border-radius: 50px;
+}
+input[type="range"]::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 50px;
+  background: $color-blue-dark;
+  cursor: pointer;
+}
+input[type="range"]::-ms-track {
+  width: 100%;
+  height: 18px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: transparent;
+  color: transparent;
+}
+input[type="range"]::-ms-fill-lower {
+  background: $color-blue-medium;
+  border-radius: 100px;
+  box-shadow: 1px 1px 1px $color-blue-medium;
+}
+input[type="range"]::-ms-fill-upper {
+  background: $color-blue-medium;
+  border-radius: 100px;
+  box-shadow: 1px 1px 1px $color-blue-medium;
+}
+input[type="range"]::-ms-thumb {
+  margin-top: 1px;
+  height: 16px;
+  width: 16px;
+  border-radius: 50px;
+  background: $color-blue-dark;
+  cursor: pointer;
+}
+input[type="range"]:focus::-ms-fill-lower {
+  background: $color-blue-medium;
+}
+input[type="range"]:focus::-ms-fill-upper {
+  background: $color-blue-medium;
 }

@@ -34,6 +34,18 @@ export function Controls() {
     player.setTimer(audioRef.currentTime);
   };
 
+  const handleEnded = (_event: Event) => {
+    // if (player.repeat() === REPEAT.OFF) {
+    //   player.next();
+    //   return;
+    // }
+    if (player.repeat() === REPEAT.ONE) {
+      player.play(player.currentIndex());
+      return;
+    }
+    player.next();
+  };
+
   // ajouter la condition sur currentTrack permet de rappeler l'effect quand il change
   createEffect(() => {
     if (player.currentTrack() && player.isPlaying()) {
@@ -49,12 +61,14 @@ export function Controls() {
   });
 
   onMount(() => {
-    audioRef.addEventListener("ended", player.next);
+    // audioRef.addEventListener("ended", player.next);
+    audioRef.addEventListener("ended", handleEnded);
     audioRef.addEventListener("timeupdate", handleTimeUpdate);
   });
 
   onCleanup(() => {
-    audioRef.removeEventListener("ended", player.next);
+    // audioRef.removeEventListener("ended", player.next);
+    audioRef.removeEventListener("ended", handleEnded);
     audioRef.removeEventListener("timeupdate", handleTimeUpdate);
   });
 
@@ -77,7 +91,12 @@ export function Controls() {
             <FaSolidCirclePause size={3} />
           </Show>
         </button>
-        <button type="button" class={styles.btn} onClick={player.next}>
+        <button
+          type="button"
+          class={styles.btn}
+          onClick={player.next}
+          disabled={player.isLastTrack()}
+        >
           <BiSolidSkipNextCircle size={3} />
         </button>
       </div>
@@ -94,7 +113,8 @@ export function Controls() {
                   type="range"
                   min="0"
                   max="100"
-                  step="1"
+                  step="0.01"
+                  value={player.timer() / current.duration * 100}
                   class={styles.bar}
                 />
                 <Show

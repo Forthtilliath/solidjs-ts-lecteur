@@ -1,0 +1,4 @@
+- Bouton repreat
+- Enregistrer les options dans le localStorage
+- Dernière musique ?
+- Fix un bug de next/previous

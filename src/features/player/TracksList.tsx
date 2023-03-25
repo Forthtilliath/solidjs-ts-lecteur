@@ -1,16 +1,14 @@
 import { For } from "solid-js";
 import styles from "@styles/player/TracksList.module.scss";
 import { Track, TrackHeader } from "./Track";
+import { usePlayer } from "@assets/contexts/playerContext";
 
-type Props = {
-  tracks: Tracks;
-};
-
-export function TracksList(props: Props) {
+export function TracksList() {
+  const { tracklist } = usePlayer();
   return (
     <div class={styles.wrapper}>
       <TrackHeader />
-      <For each={props.tracks} fallback={<div>Loading...</div>}>
+      <For each={tracklist} fallback={<div>Loading...</div>}>
         {(track, index) => <Track {...track} index={index()} />}
       </For>
     </div>
