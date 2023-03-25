@@ -18,7 +18,7 @@ export type PlayerContextModel = {
   /** Index du track en cours d'écoute */
   currentIndex: Accessor<number>;
   /** Track en cours d'écoute */
-  currentTrack: Accessor<TrackAlbum | undefined>;
+  currentTrack: Accessor<TrackAlbum>;
   /** Tableau contenant les index des musiques précédentes */
   previousIndexes: Accessor<number[]>;
   /** Met la musique précédente (enregistrée dans previousTracks si shuffle est
@@ -76,32 +76,28 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   const [muted, setMuted] = createSignal(false);
   const [shuffle, setShuffle] = createSignal(false);
 
-  const currentTrack = createMemo(() => {
-    if (currentIndex() === -1) return undefined;
-    return tracklist[currentIndex()];
-  });
-
+  const currentTrack = createMemo(() => tracklist[currentIndex()]);
   const isLastTrack = createMemo(() => currentIndex() === tracklist.length - 1);
 
+  /**
+   * Lance l'écoute de la musique à l'index choisit.
+   * 
+   * `isPlaying` est alors passé à `true`, le `timer` est remis à `0` et enfin le
+   * `currentIndex` est ajouté dans le tableau de `previousIndexes`.
+   * 
+   * @param index Index de la musique à écouter
+   */
   const play = (index: number) => {
     if (repeat() === REPEAT.OFF && isLastTrack()) return;
 
-    setCurrentIndex((prevIndex) => {
-      if (prevIndex !== -1) {
-        setPreviousIndexes((prev) => prev.concat(prevIndex));
-      }
-      return index;
-    });
+    setPreviousIndexes((prev) => prev.concat(currentIndex()));
+    setCurrentIndex(index);
     setIsPlaying(true);
     setTimer(0);
   };
 
   const togglePlay = () => {
-    if (currentIndex() === -1) {
-      play(0);
-    } else {
-      setIsPlaying((prev) => !prev);
-    }
+    setIsPlaying((prev) => !prev);
   };
   const toggleMuted = () => {
     setMuted((prev) => !prev);

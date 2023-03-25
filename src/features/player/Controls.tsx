@@ -29,9 +29,14 @@ import {
 export function Controls() {
   const player = usePlayer();
   let audioRef: HTMLAudioElement;
+  let timerRef: HTMLInputElement;
 
   const handleTimeUpdate = (_event: Event) => {
     player.setTimer(audioRef.currentTime);
+    timerRef.value = (
+      (audioRef.currentTime / player.currentTrack().duration) *
+      100
+    ).toString();
   };
 
   const handleEnded = (_event: Event) => {
@@ -46,6 +51,14 @@ export function Controls() {
     player.next();
   };
 
+  const handleChangeTimer = (event: TInputEvent) => {
+    console.log(event.currentTarget.valueAsNumber);
+    const progressPercent = event.currentTarget.valueAsNumber;
+    const newTimer = (player.currentTrack().duration * progressPercent) / 100;
+    player.setTimer(newTimer);
+    audioRef.currentTime = newTimer;
+  };
+
   // ajouter la condition sur currentTrack permet de rappeler l'effect quand il change
   createEffect(() => {
     if (player.currentTrack() && player.isPlaying()) {
@@ -53,6 +66,10 @@ export function Controls() {
     } else {
       audioRef.pause();
     }
+  });
+
+  createEffect(() => {
+    console.log("Track en cours :", player.currentTrack().title);
   });
 
   createEffect(() => {
@@ -114,8 +131,11 @@ export function Controls() {
                   min="0"
                   max="100"
                   step="0.01"
-                  value={player.timer() / current.duration * 100}
+                  // value={(player.timer() / current.duration) * 100}
+                  value="0"
+                  onChange={handleChangeTimer}
                   class={styles.bar}
+                  ref={timerRef}
                 />
                 <Show
                   when={player.timerLeft()}
