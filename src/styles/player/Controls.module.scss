@@ -145,3 +145,11 @@
 // input[type="range"]:focus::-ms-fill-upper {
 //   background: $color-blue-medium;
 // }
+
+.infos {
+  span {
+    color: $color-blue-medium;
+    font-size: 1.2rem;
+    padding-inline: 0.2rem;
+  }
+}

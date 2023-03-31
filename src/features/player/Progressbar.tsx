@@ -1,16 +1,10 @@
 import { usePlayer } from "@assets/contexts/playerContext";
 import styles from "@styles/player/Progressbar.module.scss";
-import { Accessor, createEffect, createMemo } from "solid-js";
+import { createMemo } from "solid-js";
 
-type Props = {
-  max: number;
-  // value: Accessor<number>;
-  // handleChange: (value: number) => void;
-};
-
-export function Progressbar(props: Props) {
-  const { timer, handleChangeTimer } = usePlayer();
-  const percentage = createMemo(() => (timer() / props.max) * 100);
+export function Progressbar() {
+  const { timer, handleChangeTimer, duration } = usePlayer();
+  const percentage = createMemo(() => (timer() / duration()) * 100);
 
   return (
     <input
@@ -18,7 +12,7 @@ export function Progressbar(props: Props) {
       class={styles.range}
       style={{ "--percent": `${percentage()}%` }}
       min={0}
-      max={props.max}
+      max={duration()}
       value={timer()}
       step="0.01"
       onInput={(e) => handleChangeTimer(e.currentTarget.valueAsNumber)}

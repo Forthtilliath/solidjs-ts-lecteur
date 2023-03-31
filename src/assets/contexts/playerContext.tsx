@@ -4,6 +4,7 @@ import {
   createEffect,
   createMemo,
   createSignal,
+  onCleanup,
   ParentProps,
   Setter,
   useContext,
@@ -26,8 +27,6 @@ export type PlayerContextModel = {
   currentIndex: Accessor<number>;
   /** Track en cours d'écoute */
   currentTrack: Accessor<TrackAlbum>;
-  /** Tableau contenant les index des musiques précédentes */
-  previousIndexes: Accessor<number[]>;
   /** Met la musique précédente (enregistrée dans previousTracks si shuffle est
    * activée, index précédent sinon) */
   previous: () => void;
@@ -67,6 +66,7 @@ export type PlayerContextModel = {
   showPlaylist: Accessor<boolean>;
   toggleShowPlaylist: () => void;
   handleChangeTimer: (newTimer: number) => void;
+  duration: Accessor<number>;
 };
 
 export type PlayerContextProps = {};
@@ -98,8 +98,9 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   // const [state, setState] = createStore<PlayerStore>(defaultPlayerStoreStored);
   // console.log(state);
 
-  // const [currentIndex, setCurrentIndex] = createSignal(0);
-  const [previousIndexes, setPreviousIndexes] = createSignal<number[]>([]);
+  const audio = new Audio();
+  const [duration, setDuration] = createSignal(0);
+
   const [timer, setTimer] = createSignal(0);
   const [repeat, setRepeat] = createStoredSignal<RepeatRange>(
     "repeat",
@@ -116,10 +117,6 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
     shuffle() ? shuffleTracks(tracklist, tracklist[0]) : tracklist
   );
 
-  // const currentTrack = createMemo(() => {
-  //   console.log(playlist())
-  //   return playlist()[currentIndex()]
-  // });
   const [currentTrack, setCurrentTrack] = createSignal(tracklist[0]);
   const currentIndex = createMemo(() => {
     return playlist().findIndex((track) => track.id === currentTrack().id);
@@ -129,13 +126,10 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
     () => currentIndex() === playlist().length - 1
   );
 
-  const audio = new Audio("/src/assets/tracks/" + currentTrack().filename);
-  audio.volume = muted() ? 0 : volume();
-
-  // onTimeUpdate={(e) => player.setTimer(e.currentTarget.currentTime)}
-  //   onEnded = { handleEnded }
-
-  createEffect(() => console.log({ currentIndex: currentIndex() }));
+  const handlePlayThrough = () => {
+    setDuration(audio.duration);
+    isPlaying() && audio.play();
+  }
 
   /**
    * Lance l'écoute de la musique à l'index choisit.
@@ -150,9 +144,6 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
     if (!track) throw new Error("Track id not found");
 
     setCurrentTrack(track);
-    audio.currentTime = 0;
-    audio.src = "/src/assets/tracks/" + track.filename;
-    audio.addEventListener("canplaythrough", audio.play);
     setIsPlaying(true);
   };
 
@@ -167,16 +158,10 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   };
 
   const toggleMuted = () => {
-    setMuted((prev) => {
-      const newState = !prev;
-      audio.volume = newState ? 0 : volume();
-      return newState;
-    });
+    setMuted((prev) => !prev);
   };
 
   const toggleShuffle = () => {
-    setPreviousIndexes([]);
-    // setShuffle((prev) => !prev);
     setShuffle((prev) => {
       const isShuffle = !prev;
 
@@ -199,23 +184,11 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
     setRepeat((prev) => ((prev + 1) % REPEATS.length) as RepeatRange);
   };
 
-  /**
-   * Plutot que de choisir au hasard une musique dans la tracksList qui n'est pas celle en cours,
-   * je préfère réutiliser la méthode next(). Au lieu de mettre 1 index plus loin, je met un nombre
-   * d'index plus loin correspondant au nombre de musique - 1 (pour éviter de retomber sur la
-   * musique en cours)
-   */
-  // const randomIndex = () => {
-  //   return shuffle()
-  //     ? Math.floor(Math.random() * (tracklist.length - 1)) + 1
-  //     : 1;
-  // };
-
   const previous = () => {
     const prevTrack = playlist()[currentIndex() - 1];
     if (prevTrack) play(prevTrack.id);
   };
-  
+
   const next =
     (force = false) =>
     (_event: Event) => {
@@ -239,9 +212,28 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   const handleChangeTimer = (newTimer: number) => {
     audio.currentTime = newTimer;
   };
+  const handleTimeUpdate = () => {
+    setTimer(audio.currentTime);
+  }
 
   audio.addEventListener("ended", next());
-  audio.addEventListener("timeupdate", () => setTimer(audio.currentTime));
+  audio.addEventListener("timeupdate", handleTimeUpdate);
+
+  createEffect(() => {
+    audio.volume = muted() ? 0 : volume();
+  });
+
+  createEffect(() => {
+    console.log("Track en cours :", currentTrack().title);
+    audio.currentTime = 0;
+    audio.src = "/src/assets/tracks/" + currentTrack().filename;
+    audio.addEventListener("canplaythrough", handlePlayThrough);
+  });
+
+  onCleanup(() => {
+    audio.removeEventListener("ended", next());
+    audio.removeEventListener("timeupdate", handleTimeUpdate);
+  });
 
   const value: PlayerContextModel = {
     tracklist,
@@ -249,7 +241,6 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
     isLastTrack,
     currentIndex,
     currentTrack,
-    previousIndexes,
     previous,
     next,
     play,
@@ -271,6 +262,7 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
     toggleShowPlaylist,
     playlist,
     handleChangeTimer,
+    duration,
   };
 
   return (

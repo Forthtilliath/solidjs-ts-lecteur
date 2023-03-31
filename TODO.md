@@ -43,3 +43,4 @@
 # TODO
 - ClassList au lieu du module classnames
 - createStore au lieu des createSignal dans le context
+- Trier weight des fonts
