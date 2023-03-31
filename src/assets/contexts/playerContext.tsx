@@ -1,6 +1,7 @@
 import {
   Accessor,
   createContext,
+  createEffect,
   createMemo,
   createSignal,
   ParentProps,
@@ -19,6 +20,7 @@ export type PlayerContextModel = {
   tracklist: TrackAlbum[];
   playlist: Accessor<TrackAlbum[]>;
   /** ``true`` si la chanson est la dernière de la liste */
+  isFirstTrack: Accessor<boolean>;
   isLastTrack: Accessor<boolean>;
   /** Index du track en cours d'écoute */
   currentIndex: Accessor<number>;
@@ -30,7 +32,7 @@ export type PlayerContextModel = {
    * activée, index précédent sinon) */
   previous: () => void;
   /** Met la musique suivante (prend en compte ``shuffle`` et ``repeat``) */
-  next: () => void;
+  next: (force?: boolean) => (_event: Event) => void;
   /** Met en lecture */
   play: (index: number) => void;
   /** Alterne entre lecture et pause */
@@ -42,9 +44,9 @@ export type PlayerContextModel = {
   /** Alterne entre ``off``, ``one`` et ``all`` */
   toggleRepeat: () => void;
   /** Volume de la musique */
-  volume: Accessor<Number_0_to_100>;
+  volume: Accessor<number>;
   /** Modifie le volume */
-  setVolume: (e: TInputEvent) => void;
+  setVolume: (n: number) => void;
   /** ``true`` si le son est coupé, ``false`` sinon */
   muted: Accessor<boolean>;
   /** Alterne entre muet ou non */
@@ -64,6 +66,7 @@ export type PlayerContextModel = {
   /** Affiche ou non la playlist */
   showPlaylist: Accessor<boolean>;
   toggleShowPlaylist: () => void;
+  handleChangeTimer: (newTimer: number) => void;
 };
 
 export type PlayerContextProps = {};
@@ -77,7 +80,7 @@ const REPEATS = Object.values(REPEAT);
 //   currentIndex: number;
 //   timer: number;
 //   repeat: RepeatRange;
-//   volume: Number_0_to_100;
+//   volume: number;
 // };
 
 // const defaultPlayerStore: PlayerStore = {
@@ -102,10 +105,7 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
     "repeat",
     REPEAT.OFF
   );
-  const [volume, _setVolume] = createStoredSignal<Number_0_to_100>(
-    "volume",
-    50
-  );
+  const [volume, _setVolume] = createStoredSignal<number>("volume", 0.5);
 
   const [timerLeft, setTimerLeft] = createStoredSignal("timerLeft", false);
   const [isPlaying, setIsPlaying] = createSignal(false);
@@ -116,8 +116,23 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
     shuffle() ? shuffleTracks(tracklist, tracklist[0]) : tracklist
   );
 
-  const currentTrack = createMemo(() => tracklist[currentIndex()]);
-  const isLastTrack = createMemo(() => currentIndex() === tracklist.length - 1);
+  // const currentTrack = createMemo(() => {
+  //   console.log(playlist())
+  //   return playlist()[currentIndex()]
+  // });
+  const [currentTrack, setCurrentTrack] = createSignal(tracklist[0]);
+  const isFirstTrack = createMemo(() => currentIndex() === 0);
+  const isLastTrack = createMemo(
+    () => currentIndex() === playlist().length - 1
+  );
+
+  const audio = new Audio("/src/assets/tracks/" + currentTrack().filename);
+  audio.volume = muted() ? 0 : volume();
+
+  // onTimeUpdate={(e) => player.setTimer(e.currentTarget.currentTime)}
+  //   onEnded = { handleEnded }
+
+  createEffect(() => console.log({ currentIndex: currentIndex() }));
 
   /**
    * Lance l'écoute de la musique à l'index choisit.
@@ -127,22 +142,37 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
    *
    * @param index Index de la musique à écouter
    */
-  const play = (index: number) => {
-    if (repeat() === REPEAT.OFF && isLastTrack()) return;
+  const play = (id: number) => {
+    const trackIndex = playlist().findIndex((track) => track.id === id);
+    if (trackIndex === -1) throw new Error("Track id not found");
 
-    setPreviousIndexes((prev) => prev.concat(currentIndex()));
-    setPlaylist((pl) => pl.filter((_, ind) => ind >= index));
-    setCurrentIndex(index);
+    const track = playlist()[trackIndex];
+    setCurrentIndex(trackIndex);
+    setCurrentTrack(track);
+    audio.currentTime = 0;
+    audio.src = "/src/assets/tracks/" + track.filename;
+    audio.addEventListener("canplaythrough", audio.play);
     setIsPlaying(true);
-    setTimer(0);
   };
 
   const togglePlay = () => {
+    audio.paused ? audio.play() : audio.pause();
     setIsPlaying((prev) => !prev);
   };
-  const toggleMuted = () => {
-    setMuted((prev) => !prev);
+
+  const setVolume = (n: number) => {
+    audio.volume = n;
+    _setVolume(n);
   };
+
+  const toggleMuted = () => {
+    setMuted((prev) => {
+      const newState = !prev;
+      audio.volume = newState ? 0 : volume();
+      return newState;
+    });
+  };
+
   const toggleShuffle = () => {
     setPreviousIndexes([]);
     // setShuffle((prev) => !prev);
@@ -150,12 +180,7 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
       const isShuffle = !prev;
       let tracks: TrackAlbum[];
       if (isShuffle) {
-        // tracks = Array.shuffle(
-        //   tracklist.filter((_track, index) => index !== currentIndex())
-        // );
-        // tracks = [currentTrack()].concat(tracks);
         tracks = shuffleTracks(tracklist, currentTrack());
-        console.log(tracks);
       } else {
         tracks = tracklist.slice();
       }
@@ -173,21 +198,17 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
     setRepeat((prev) => ((prev + 1) % REPEATS.length) as RepeatRange);
   };
 
-  const setVolume = (e: TInputEvent) => {
-    _setVolume(Number(e.currentTarget.value) as Number_0_to_100);
-  };
-
   /**
    * Plutot que de choisir au hasard une musique dans la tracksList qui n'est pas celle en cours,
    * je préfère réutiliser la méthode next(). Au lieu de mettre 1 index plus loin, je met un nombre
    * d'index plus loin correspondant au nombre de musique - 1 (pour éviter de retomber sur la
    * musique en cours)
    */
-  const randomIndex = () => {
-    return shuffle()
-      ? Math.floor(Math.random() * (tracklist.length - 1)) + 1
-      : 1;
-  };
+  // const randomIndex = () => {
+  //   return shuffle()
+  //     ? Math.floor(Math.random() * (tracklist.length - 1)) + 1
+  //     : 1;
+  // };
 
   const previous = () => {
     if (shuffle()) {
@@ -204,16 +225,31 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
       });
     }
   };
-  const next = () => {
-    setCurrentIndex((prevIndex) => {
-      const index = (prevIndex + randomIndex()) % tracklist.length;
-      play(index);
-      return index;
+  const next = (force?: boolean) => (_event: Event) => {
+    if (isLastTrack() && repeat() !== REPEAT.OFF) {
+      play(playlist()[0].id);
+      return;
+    }
+
+    setCurrentIndex((prev) => {
+      const nextIndex = prev + 1;
+      const nextTrack = playlist()[nextIndex];
+      play(nextTrack.id);
+
+      return nextIndex;
     });
   };
 
+  const handleChangeTimer = (newTimer: number) => {
+    audio.currentTime = newTimer;
+  };
+
+  audio.addEventListener("ended", next());
+  audio.addEventListener("timeupdate", () => setTimer(audio.currentTime));
+
   const value: PlayerContextModel = {
     tracklist,
+    isFirstTrack,
     isLastTrack,
     currentIndex,
     currentTrack,
@@ -238,6 +274,7 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
     showPlaylist,
     toggleShowPlaylist,
     playlist,
+    handleChangeTimer,
   };
 
   return (

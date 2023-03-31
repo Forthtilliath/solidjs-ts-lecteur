@@ -18,21 +18,18 @@ export function Track(props: Props) {
    * Cliquer sur la ligne permet uniquement de mettre lecture, toutefois cliquer sur la
    * cover permet d'alterner entre lecture et pause.
    */
-  const handlePlay = (index: number) => (event: MouseEvent) => {
-    console.log({ index });
+  const handlePlay = (id: number) => (event: MouseEvent) => {
     if (active() && event.target === coverRef) {
       togglePlay();
-      console.log("if");
     } else {
-      play(index);
-      console.log("else");
+      play(id);
     }
   };
 
   return (
     <div
       class={classNames(styles.wrapper, { [styles.active]: active() })}
-      onClick={handlePlay(props.index)}
+      onClick={handlePlay(props.id)}
     >
       <div class={styles.index}>{props.index + 1}</div>
       <div

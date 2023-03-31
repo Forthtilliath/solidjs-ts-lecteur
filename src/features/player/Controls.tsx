@@ -37,29 +37,29 @@ export function Controls() {
     player.next();
   };
 
-  const handleChangeTimer = (newTimer: number) => {
-    audioRef.currentTime = newTimer;
-  };
+  // const handleChangeTimer = (newTimer: number) => {
+  //   // audioRef.currentTime = newTimer;
+  // };
 
   // ajouter la condition sur currentTrack permet de rappeler l'effect quand il change
-  createEffect(() => {
-    if (player.currentTrack() && player.isPlaying()) {
-      audioRef.play();
-    } else {
-      audioRef.pause();
-    }
-  });
+  // createEffect(() => {
+  //   if (player.currentTrack() && player.isPlaying()) {
+  //     audioRef.play();
+  //   } else {
+  //     audioRef.pause();
+  //   }
+  // });
 
   createEffect(() => {
     console.log("Track en cours :", player.currentTrack().title);
-    audioRef.currentTime = 0;
+    // audioRef.currentTime = 0;
     setCurrentTime(0);
   });
 
-  createEffect(() => {
-    if (player.muted()) audioRef.volume = 0;
-    else audioRef.volume = player.volume() / 100;
-  });
+  // createEffect(() => {
+  //   if (player.muted()) audioRef.volume = 0;
+  //   else audioRef.volume = player.volume() / 100;
+  // });
 
   return (
     <div class={styles.wrapper}>
@@ -68,7 +68,7 @@ export function Controls() {
           type="button"
           class={styles.btn}
           onClick={player.previous}
-          disabled={player.previousIndexes().length === 0}
+          disabled={player.isFirstTrack()}
         >
           <BiSolidSkipPreviousCircle size={3} />
         </button>
@@ -83,7 +83,7 @@ export function Controls() {
         <button
           type="button"
           class={styles.btn}
-          onClick={player.next}
+          onClick={player.next()}
           disabled={player.isLastTrack()}
         >
           <BiSolidSkipNextCircle size={3} />
@@ -110,8 +110,8 @@ export function Controls() {
                 /> */}
                 <Progressbar
                   max={current.duration}
-                  value={currentTime}
-                  handleChange={handleChangeTimer}
+                  // value={currentTime}
+                  // handleChange={player.handleChangeTimer}
                 />
                 <Show
                   when={player.timerLeft()}
@@ -129,12 +129,13 @@ export function Controls() {
             </>
           )}
         </Show>
-        <audio
+        {/* <audio
           src={"/src/assets/tracks/" + player.currentTrack()?.filename}
           ref={audioRef!}
           onTimeUpdate={(e) => player.setTimer(e.currentTarget.currentTime)}
           onEnded={handleEnded}
-        />
+          // onCanPlayThrough={() => audioRef.play()}
+        /> */}
       </div>
       <div class={styles.features}>
         <button type="button" class={styles.btn} onClick={player.toggleRepeat}>
@@ -183,10 +184,10 @@ export function Controls() {
           <input
             type="range"
             min="0"
-            max="100"
-            step="1"
+            max="1"
+            step=".01"
             value={player.volume()}
-            onChange={player.setVolume}
+            onInput={(e) => player.setVolume(e.currentTarget.valueAsNumber)}
           />
         </div>
       </div>

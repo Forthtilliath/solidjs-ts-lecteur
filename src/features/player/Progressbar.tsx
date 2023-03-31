@@ -4,20 +4,13 @@ import { Accessor, createEffect, createMemo } from "solid-js";
 
 type Props = {
   max: number;
-  value: Accessor<number>;
-  handleChange: (value: number) => void;
+  // value: Accessor<number>;
+  // handleChange: (value: number) => void;
 };
 
 export function Progressbar(props: Props) {
-  const { timer } = usePlayer();
-  // const percentage = createMemo(() => (props.value() / props.max) * 100);
+  const { timer, handleChangeTimer } = usePlayer();
   const percentage = createMemo(() => (timer() / props.max) * 100);
-
-  const handleInputChange = (e: TInputEvent) => {
-    props.handleChange(e.currentTarget.valueAsNumber);
-  };
-
-  createEffect(() => console.log(`Progressbar ${props.max}`))
 
   return (
     <input
@@ -26,9 +19,9 @@ export function Progressbar(props: Props) {
       style={{ "--percent": `${percentage()}%` }}
       min={0}
       max={props.max}
-      value={props.value()}
+      value={timer()}
       step="0.01"
-      onInput={handleInputChange}
+      onInput={(e) => handleChangeTimer(e.currentTarget.valueAsNumber)}
     />
   );
 }
