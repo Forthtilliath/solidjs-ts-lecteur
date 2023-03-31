@@ -198,6 +198,8 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
         nextTrack = playlist()[0];
       } else if (!force && repeat() === REPEAT.ONE) {
         nextTrack = currentTrack();
+        setTimer(0);
+        audio.play();
       } else if (!isLastTrack()) {
         nextTrack = playlist()[currentIndex() + 1];
       }
