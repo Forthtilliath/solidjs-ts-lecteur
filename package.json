@@ -10,9 +10,11 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@total-typescript/ts-reset": "^0.4.2",
     "@types/node": "^18.15.5",
     "classnames": "^2.3.2",
     "sass": "^1.59.3",
+    "solid-transition-group": "^0.2.2",
     "typescript": "^4.9.5",
     "vite": "^4.1.1",
     "vite-plugin-solid": "^2.5.0"

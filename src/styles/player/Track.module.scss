@@ -2,10 +2,32 @@
 
 .wrapper,
 .header {
-  display: flex;
-  gap: 1rem;
+  // https://grid.layoutit.com/?id=oZYm5yc
+  display: grid;
+  grid-template-columns: [index] 35px [cover] 50px [title] 2fr [artist] 1fr [album] 1fr [duration] 60px;
+  grid-template-rows: min-content;
+  grid-template-areas: "index cover title artist album duration";
+  gap: 0px 1em;
+
   line-height: 3;
   padding-inline: 1rem;
+
+  @media (width < 1500px) {
+    grid-template-columns: [index] 35px [cover] 50px [title] 2fr [artist] 1fr [duration] 60px;
+    grid-template-areas: "index cover title artist duration";
+
+    .album {
+      display: none;
+    }
+  }
+  @media (width < 1300px) {
+    grid-template-columns: [index] 35px [cover] 50px [title] 1fr [duration] 60px;
+    grid-template-areas: "index cover title duration";
+
+    .artist {
+      display: none;
+    }
+  }
 }
 
 .header {
@@ -22,34 +44,88 @@
     background: hsla(0 0% 0% / 30%);
     cursor: pointer;
   }
+
+  padding-block: 0.25rem;
 }
 
 .index {
+  grid-area: index;
   width: 3ch;
   text-align: right;
+}
+
+.cover {
+  grid-area: cover;
+  width: 50px;
+  display: flex;
+  position: relative;
+
+  img {
+    width: 50px;
+  }
+  .playIcon {
+    all: unset;
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  &::after {
+    position: absolute;
+    display: block;
+    content: "";
+    background: hsl(0deg 0% 100% / 20%);
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  &.active {
+    .playIcon,
+    &::after {
+      opacity: 1;
+    }
+  }
 }
 
 .title,
 .artist,
 .album {
-  width: 100%;
-  max-width: 500px;
+  // flex: 1;
+  // max-width: 500px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
-@media (width < 1400px) {
-  .album {
-    display: none;
-  }
+.title {
+  // flex: 2;
+  grid-area: title;
 }
-@media (width < 1050px) {
-  .artist {
-    display: none;
-  }
+.artist {
+  grid-area: artist;
 }
+.album {
+  grid-area: album;
+}
+// @media (width < 1500px) {
+//   .album {
+//     display: none;
+//   }
+// }
+// @media (width < 1300px) {
+//   .artist {
+//     display: none;
+//   }
+// }
 
 .duration {
-  width: 5ch;
-  // font-family: $font-duration;
+  grid-area: duration;
+  width: 7ch;
+  text-align: center;
 }

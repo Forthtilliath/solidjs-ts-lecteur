@@ -1,10 +1,10 @@
 .App {
   display: grid;
-  grid-template-columns: [sidebar] 400px [trackslist] 1fr;
-  grid-template-rows: [main] 1fr [footer] 80px;
+  grid-template-columns: [sidebar] 400px [main] 1fr;
+  grid-template-rows: [content] 1fr [footer] 80px;
   gap: 0px 0px;
   grid-template-areas:
-    "sidebar trackslist"
+    "sidebar main"
     "footer footer";
 }
 
@@ -13,7 +13,9 @@
 }
 .sidebar {
   grid-area: sidebar;
+  // Pour conserver le box-shadow du sidebar au dessus de la playlist
+  z-index: 1;
 }
-.trackslist {
+.main {
   grid-area: trackslist;
 }

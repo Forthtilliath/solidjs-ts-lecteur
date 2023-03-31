@@ -3,8 +3,9 @@ import styles from "@styles/player/TracksList.module.scss";
 import { Track, TrackHeader } from "./Track";
 import { usePlayer } from "@assets/contexts/playerContext";
 
-export function TracksList() {
+export function Tracklist() {
   const { tracklist } = usePlayer();
+
   return (
     <div class={styles.wrapper}>
       <TrackHeader />

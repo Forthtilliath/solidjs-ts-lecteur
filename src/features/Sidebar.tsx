@@ -1,10 +1,21 @@
 import styles from "@styles/Sidebar.module.scss";
-import { BsDiscFill, FaSolidPause, FaSolidPlay } from "@features/Icons";
+import BiSolidPlaylist, {
+  BsDiscFill,
+  FaSolidPause,
+  FaSolidPlay,
+} from "@features/Icons";
 import { usePlayer } from "@assets/contexts/playerContext";
 import { Show } from "solid-js";
+import classNames from "classnames";
 
 export function Sidebar() {
-  const { currentTrack, togglePlay, isPlaying } = usePlayer();
+  const {
+    currentTrack,
+    togglePlay,
+    isPlaying,
+    toggleShowPlaylist,
+    showPlaylist,
+  } = usePlayer();
 
   return (
     <div class={styles.wrapper}>
@@ -21,11 +32,11 @@ export function Sidebar() {
               alt="Couverture de l'album"
               class={styles.image}
             />
-            <div class={styles.playIcon}>
+            <button class={styles.playIcon}>
               <Show when={isPlaying()} fallback={<FaSolidPlay size={4} />}>
                 <FaSolidPause size={4} />
               </Show>
-            </div>
+            </button>
           </div>
           <div class={styles.infos}>
             <p class={styles.title}>{currentTrack()?.title}</p>
@@ -33,6 +44,15 @@ export function Sidebar() {
           </div>
         </div>
       </Show>
+
+      <button
+        type="button"
+        onClick={toggleShowPlaylist}
+        class={classNames(styles.btnPlaylist, showPlaylist() && styles.active)}
+      >
+        <BiSolidPlaylist />
+        <span>{showPlaylist() ? "Fermer la playlist" : "Afficher la playlist"}</span>
+      </button>
     </div>
   );
 }

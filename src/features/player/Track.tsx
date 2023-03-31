@@ -1,25 +1,51 @@
 import { usePlayer } from "@assets/contexts/playerContext";
+import { FaSolidPause, FaSolidPlay } from "@features/Icons";
 import styles from "@styles/player/Track.module.scss";
 import { secondsToMMSS } from "@utils/methods/duration";
 import classNames from "classnames";
+import { createMemo, Show } from "solid-js";
 
 type Props = TrackAlbum & {
   index: number;
 };
 
 export function Track(props: Props) {
-  const { currentTrack, play } = usePlayer();
+  const { currentTrack, play, togglePlay, isPlaying } = usePlayer();
+  const active = createMemo(() => currentTrack()?.id === props.id);
+  let coverRef: HTMLDivElement;
 
-  const handlePlay = (index: number) => (_event: MouseEvent) => play(index);
+  /**
+   * Cliquer sur la ligne permet uniquement de mettre lecture, toutefois cliquer sur la
+   * cover permet d'alterner entre lecture et pause.
+   */
+  const handlePlay = (index: number) => (event: MouseEvent) => {
+    console.log({ index });
+    if (active() && event.target === coverRef) {
+      togglePlay();
+      console.log("if");
+    } else {
+      play(index);
+      console.log("else");
+    }
+  };
 
   return (
     <div
-      class={classNames(styles.wrapper, {
-        [styles.active]: currentTrack()?.id === props.id,
-      })}
+      class={classNames(styles.wrapper, { [styles.active]: active() })}
       onClick={handlePlay(props.index)}
     >
       <div class={styles.index}>{props.index + 1}</div>
+      <div
+        class={classNames(styles.cover, { [styles.active]: active() })}
+        ref={coverRef!}
+      >
+        <img src={"/src/assets/covers/" + props.album.filename} alt="cover" />
+        <button class={styles.playIcon}>
+          <Show when={isPlaying()} fallback={<FaSolidPlay size={2} />}>
+            <FaSolidPause size={2} />
+          </Show>
+        </button>
+      </div>
       <div class={styles.title}>{props.title}</div>
       <div class={styles.artist}>{props.artist}</div>
       <div class={styles.album}>{props.album.name}</div>
@@ -32,6 +58,7 @@ export function TrackHeader() {
   return (
     <div class={styles.header}>
       <div class={styles.index}>#</div>
+      <div class={styles.cover}></div>
       <div class={styles.title}>Titre</div>
       <div class={styles.artist}>Artist</div>
       <div class={styles.album}>Album</div>

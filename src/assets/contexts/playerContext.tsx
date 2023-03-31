@@ -9,10 +9,15 @@ import {
 } from "solid-js";
 import { tracks, albums } from "@utils/data";
 import { REPEAT } from "@utils/constants";
+import { createStoredSignal } from "@signals/createStoredSignal";
+import * as Array from "@utils/methods/array";
+import { createStore } from "solid-js/store";
+import { getParsedStorage } from "@utils/methods/storage";
 
 export type PlayerContextModel = {
   /** Liste des musiques */
   tracklist: TrackAlbum[];
+  playlist: Accessor<TrackAlbum[]>;
   /** ``true`` si la chanson est la dernière de la liste */
   isLastTrack: Accessor<boolean>;
   /** Index du track en cours d'écoute */
@@ -56,6 +61,9 @@ export type PlayerContextModel = {
   timerLeft: Accessor<boolean>;
   /** Alterne entre temps restant et durée de la musique */
   toggleTimerLeft: () => void;
+  /** Affiche ou non la playlist */
+  showPlaylist: Accessor<boolean>;
+  toggleShowPlaylist: () => void;
 };
 
 export type PlayerContextProps = {};
@@ -65,32 +73,65 @@ const tracklist = addAlbums(tracks);
 
 const REPEATS = Object.values(REPEAT);
 
+// type PlayerStore = {
+//   currentIndex: number;
+//   timer: number;
+//   repeat: RepeatRange;
+//   volume: Number_0_to_100;
+// };
+
+// const defaultPlayerStore: PlayerStore = {
+//   currentIndex: 0,
+//   timer: 0,
+//   repeat: REPEAT.OFF,
+//   volume: 50,
+// };
+// const defaultPlayerStoreStored = Object.assign(
+//   defaultPlayerStore,
+//   getParsedStorage(localStorage)
+// );
+
 export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
+  // const [state, setState] = createStore<PlayerStore>(defaultPlayerStoreStored);
+  // console.log(state);
+
   const [currentIndex, setCurrentIndex] = createSignal(0);
   const [previousIndexes, setPreviousIndexes] = createSignal<number[]>([]);
   const [timer, setTimer] = createSignal(0);
-  const [timerLeft, setTimerLeft] = createSignal(false);
+  const [repeat, setRepeat] = createStoredSignal<RepeatRange>(
+    "repeat",
+    REPEAT.OFF
+  );
+  const [volume, _setVolume] = createStoredSignal<Number_0_to_100>(
+    "volume",
+    50
+  );
+
+  const [timerLeft, setTimerLeft] = createStoredSignal("timerLeft", false);
   const [isPlaying, setIsPlaying] = createSignal(false);
-  const [repeat, setRepeat] = createSignal<RepeatRange>(0);
-  const [volume, _setVolume] = createSignal<Number_0_to_100>(50);
-  const [muted, setMuted] = createSignal(false);
-  const [shuffle, setShuffle] = createSignal(false);
+  const [muted, setMuted] = createStoredSignal("muted", false);
+  const [shuffle, setShuffle] = createStoredSignal("shuffle", false);
+  const [showPlaylist, setShowPlaylist] = createSignal(false);
+  const [playlist, setPlaylist] = createSignal(
+    shuffle() ? shuffleTracks(tracklist, tracklist[0]) : tracklist
+  );
 
   const currentTrack = createMemo(() => tracklist[currentIndex()]);
   const isLastTrack = createMemo(() => currentIndex() === tracklist.length - 1);
 
   /**
    * Lance l'écoute de la musique à l'index choisit.
-   * 
+   *
    * `isPlaying` est alors passé à `true`, le `timer` est remis à `0` et enfin le
    * `currentIndex` est ajouté dans le tableau de `previousIndexes`.
-   * 
+   *
    * @param index Index de la musique à écouter
    */
   const play = (index: number) => {
     if (repeat() === REPEAT.OFF && isLastTrack()) return;
 
     setPreviousIndexes((prev) => prev.concat(currentIndex()));
+    setPlaylist((pl) => pl.filter((_, ind) => ind >= index));
     setCurrentIndex(index);
     setIsPlaying(true);
     setTimer(0);
@@ -104,10 +145,29 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   };
   const toggleShuffle = () => {
     setPreviousIndexes([]);
-    setShuffle((prev) => !prev);
+    // setShuffle((prev) => !prev);
+    setShuffle((prev) => {
+      const isShuffle = !prev;
+      let tracks: TrackAlbum[];
+      if (isShuffle) {
+        // tracks = Array.shuffle(
+        //   tracklist.filter((_track, index) => index !== currentIndex())
+        // );
+        // tracks = [currentTrack()].concat(tracks);
+        tracks = shuffleTracks(tracklist, currentTrack());
+        console.log(tracks);
+      } else {
+        tracks = tracklist.slice();
+      }
+      setPlaylist(tracks);
+      return isShuffle;
+    });
   };
   const toggleTimerLeft = () => {
     setTimerLeft((prev) => !prev);
+  };
+  const toggleShowPlaylist = () => {
+    setShowPlaylist((prev) => !prev);
   };
   const toggleRepeat = () => {
     setRepeat((prev) => ((prev + 1) % REPEATS.length) as RepeatRange);
@@ -175,6 +235,9 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
     setTimer,
     timerLeft,
     toggleTimerLeft,
+    showPlaylist,
+    toggleShowPlaylist,
+    playlist,
   };
 
   return (
@@ -202,4 +265,14 @@ function addAlbums(tracks: Tracks) {
     }
     return Object.assign(track, { album });
   });
+}
+
+function shuffleTracks<T extends { id: string | number }>(
+  tracks: T[],
+  current: T
+) {
+  const tracksExceptCurrent = tracks.filter((track) => track.id !== current.id);
+  const mixedTracks = Array.shuffle(tracksExceptCurrent);
+
+  return [current].concat(...mixedTracks) as T[];
 }

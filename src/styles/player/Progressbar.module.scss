@@ -1,0 +1,82 @@
+@import "../variables";
+
+/* Range Input Reset */
+.range {
+  --percent: 0;
+  --color-1: #{$color-blue-medium};
+  --color-2: #{$color-white};
+  // --color-1: blue;
+  // --color-2: grey;
+  appearance: none;
+  background: transparent;
+  border: none;
+  margin: 0;
+  background: linear-gradient(
+    90deg,
+    var(--color-1) var(--percent),
+    var(--color-2) var(--percent)
+  );
+
+  &:hover {
+    // --color-1: #{$color-blue-light};
+  }
+}
+
+.range[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+
+.range::-ms-track {
+  width: 100%;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+
+/* Track Styling */
+.range {
+  width: 100%;
+  cursor: pointer;
+  box-sizing: border-box;
+  height: 6px;
+  border-radius: 3px;
+  background-color: #333;
+}
+
+/* Thumb Styling */
+.range::-webkit-slider-thumb {
+  width: 12px;
+  height: 12px;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px 6px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+}
+
+.range::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  margin-top: -3px;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px 6px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+}
+
+.range:hover::-webkit-slider-thumb {
+  opacity: 1;
+}
+
+.range:hover::-moz-range-thumb {
+  opacity: 1;
+}
+
+/* Focus Styling */
+.range:focus {
+  outline: none;
+}
+
+.range:focus::-webkit-slider-thumb {
+  outline: -webkit-focus-ring-color auto 5px;
+}

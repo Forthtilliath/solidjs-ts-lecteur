@@ -14,7 +14,7 @@
     "paths": {
       "@features/*": ["./src/features/*"],
       "@styles/*": ["./src/styles/*"],
-      "@hooks/*": ["./src/utils/hooks/*"],
+      "@signals/*": ["./src/utils/signals/*"],
       "@utils/*": ["./src/utils/*"],
       "@assets/*": ["./src/assets/*"],
     }

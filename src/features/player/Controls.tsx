@@ -17,27 +17,13 @@ import {
 import styles from "@styles/player/Controls.module.scss";
 import { REPEAT } from "@utils/constants";
 import { secondsToMMSS } from "@utils/methods/duration";
-import {
-  createEffect,
-  Match,
-  onCleanup,
-  onMount,
-  Show,
-  Switch,
-} from "solid-js";
+import { createEffect, createSignal, Match, Show, Switch } from "solid-js";
+import { Progressbar } from "./Progressbar";
 
 export function Controls() {
+  const [currentTime, setCurrentTime] = createSignal(0);
   const player = usePlayer();
   let audioRef: HTMLAudioElement;
-  let timerRef: HTMLInputElement;
-
-  const handleTimeUpdate = (_event: Event) => {
-    player.setTimer(audioRef.currentTime);
-    timerRef.value = (
-      (audioRef.currentTime / player.currentTrack().duration) *
-      100
-    ).toString();
-  };
 
   const handleEnded = (_event: Event) => {
     // if (player.repeat() === REPEAT.OFF) {
@@ -51,11 +37,7 @@ export function Controls() {
     player.next();
   };
 
-  const handleChangeTimer = (event: TInputEvent) => {
-    console.log(event.currentTarget.valueAsNumber);
-    const progressPercent = event.currentTarget.valueAsNumber;
-    const newTimer = (player.currentTrack().duration * progressPercent) / 100;
-    player.setTimer(newTimer);
+  const handleChangeTimer = (newTimer: number) => {
     audioRef.currentTime = newTimer;
   };
 
@@ -70,23 +52,13 @@ export function Controls() {
 
   createEffect(() => {
     console.log("Track en cours :", player.currentTrack().title);
+    audioRef.currentTime = 0;
+    setCurrentTime(0);
   });
 
   createEffect(() => {
     if (player.muted()) audioRef.volume = 0;
     else audioRef.volume = player.volume() / 100;
-  });
-
-  onMount(() => {
-    // audioRef.addEventListener("ended", player.next);
-    audioRef.addEventListener("ended", handleEnded);
-    audioRef.addEventListener("timeupdate", handleTimeUpdate);
-  });
-
-  onCleanup(() => {
-    // audioRef.removeEventListener("ended", player.next);
-    audioRef.removeEventListener("ended", handleEnded);
-    audioRef.removeEventListener("timeupdate", handleTimeUpdate);
   });
 
   return (
@@ -124,18 +96,22 @@ export function Controls() {
               <p class={styles.infos}>
                 {current.title} - {current.artist}
               </p>
-              <div class={styles.playbar}>
+              <div class={styles.trackbarWrapper}>
                 <div class={styles.timer}>{secondsToMMSS(player.timer())}</div>
-                <input
+                {/* <div class={styles.timer}>{secondsToMMSS(currentTime())}</div> */}
+                {/* <input
                   type="range"
-                  min="0"
-                  max="100"
-                  step="0.01"
+                  max={current.duration}
                   // value={(player.timer() / current.duration) * 100}
-                  value="0"
+                  value={player.timer()}
                   onChange={handleChangeTimer}
-                  class={styles.bar}
+                  class={styles.trackbar}
                   ref={timerRef}
+                /> */}
+                <Progressbar
+                  max={current.duration}
+                  value={currentTime}
+                  handleChange={handleChangeTimer}
                 />
                 <Show
                   when={player.timerLeft()}
@@ -146,9 +122,7 @@ export function Controls() {
                   }
                 >
                   <div class={styles.timer} onClick={player.toggleTimerLeft}>
-                    {secondsToMMSS(
-                      Math.ceil(current.duration - player.timer())
-                    )}
+                    {secondsToMMSS(Math.ceil(current.duration - currentTime()))}
                   </div>
                 </Show>
               </div>
@@ -158,6 +132,8 @@ export function Controls() {
         <audio
           src={"/src/assets/tracks/" + player.currentTrack()?.filename}
           ref={audioRef!}
+          onTimeUpdate={(e) => player.setTimer(e.currentTarget.currentTime)}
+          onEnded={handleEnded}
         />
       </div>
       <div class={styles.features}>

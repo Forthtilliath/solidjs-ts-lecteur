@@ -5,6 +5,10 @@
 
   padding: 2rem;
   box-shadow: 2px 0px 5px 1px $color-blue-dark;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .logo {
@@ -37,6 +41,8 @@
 }
 
 .track {
+  flex: 1;
+
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -57,6 +63,7 @@
     }
 
     .playIcon {
+      all: unset;
       position: absolute;
       inset: 0;
       display: grid;
@@ -96,5 +103,51 @@
     .artist {
       font-size: 0.9rem;
     }
+  }
+}
+
+.btnPlaylist {
+  all: unset;
+
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.25rem;
+  // box-shadow: 0 0 2px 3px $color-white;
+  // background: $color-white;
+  border: 1px solid $color-blue-dark;
+  color: $color-blue-dark;
+  font-size: 1.2rem;
+  margin-inline: auto;
+
+  cursor: pointer;
+  width: 200px;
+
+  --color-1: #{$color-blue-medium};
+  --color-2: #{$color-white};
+
+  box-shadow: 0px 0px 2px 1px $color-blue-light;
+  background: linear-gradient(
+    to bottom,
+    var(--color-2) 5%,
+    var(--color-1) 100%
+  );
+  background-color: var(--color-2);
+
+  &.active {
+    --color-1: #{$color-blue-medium};
+    --color-2: #{$color-blue-dark};
+    color: $color-white;
+  }
+
+  &:hover {
+    background: linear-gradient(
+      to bottom,
+      var(--color-1) 5%,
+      var(--color-2) 100%
+    );
+    background-color: var(--color-1);
   }
 }
