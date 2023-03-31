@@ -98,7 +98,7 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   // const [state, setState] = createStore<PlayerStore>(defaultPlayerStoreStored);
   // console.log(state);
 
-  const [currentIndex, setCurrentIndex] = createSignal(0);
+  // const [currentIndex, setCurrentIndex] = createSignal(0);
   const [previousIndexes, setPreviousIndexes] = createSignal<number[]>([]);
   const [timer, setTimer] = createSignal(0);
   const [repeat, setRepeat] = createStoredSignal<RepeatRange>(
@@ -121,6 +121,9 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   //   return playlist()[currentIndex()]
   // });
   const [currentTrack, setCurrentTrack] = createSignal(tracklist[0]);
+  const currentIndex = createMemo(() => {
+    return playlist().findIndex((track) => track.id === currentTrack().id);
+  });
   const isFirstTrack = createMemo(() => currentIndex() === 0);
   const isLastTrack = createMemo(
     () => currentIndex() === playlist().length - 1
@@ -143,11 +146,9 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
    * @param index Index de la musique à écouter
    */
   const play = (id: number) => {
-    const trackIndex = playlist().findIndex((track) => track.id === id);
-    if (trackIndex === -1) throw new Error("Track id not found");
+    const track = playlist().find((track) => track.id === id);
+    if (!track) throw new Error("Track id not found");
 
-    const track = playlist()[trackIndex];
-    setCurrentIndex(trackIndex);
     setCurrentTrack(track);
     audio.currentTime = 0;
     audio.src = "/src/assets/tracks/" + track.filename;
@@ -178,13 +179,13 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
     // setShuffle((prev) => !prev);
     setShuffle((prev) => {
       const isShuffle = !prev;
-      let tracks: TrackAlbum[];
+
       if (isShuffle) {
-        tracks = shuffleTracks(tracklist, currentTrack());
+        setPlaylist(shuffleTracks(tracklist, currentTrack()));
       } else {
-        tracks = tracklist.slice();
+        setPlaylist(tracklist.slice());
       }
-      setPlaylist(tracks);
+
       return isShuffle;
     });
   };
@@ -218,27 +219,32 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
         return prevIndexes;
       });
     } else {
-      setCurrentIndex((prevIndex) => {
-        const index = (prevIndex - 1 + tracklist.length) % tracklist.length;
-        play(index);
-        return index;
-      });
+      // setCurrentIndex((prevIndex) => {
+      //   const index = (prevIndex - 1 + tracklist.length) % tracklist.length;
+      //   play(index);
+      //   return index;
+      // });
     }
   };
-  const next = (force?: boolean) => (_event: Event) => {
-    if (isLastTrack() && repeat() !== REPEAT.OFF) {
-      play(playlist()[0].id);
-      return;
-    }
+  const next =
+    (force = false) =>
+    (_event: Event) => {
+      let nextTrack: TrackAlbum | undefined;
 
-    setCurrentIndex((prev) => {
-      const nextIndex = prev + 1;
-      const nextTrack = playlist()[nextIndex];
-      play(nextTrack.id);
-
-      return nextIndex;
-    });
-  };
+      if (isLastTrack() && repeat() === REPEAT.ALL) {
+        nextTrack = playlist()[0];
+      } else if (!force && repeat() === REPEAT.ONE) {
+        nextTrack = currentTrack();
+      } else if (!isLastTrack()) {
+        nextTrack = playlist()[currentIndex() + 1];
+      }
+      if (nextTrack) play(nextTrack.id);
+      else {
+        setCurrentTrack(playlist()[0]);
+        setIsPlaying(false);
+        setTimer(0);
+      }
+    };
 
   const handleChangeTimer = (newTimer: number) => {
     audio.currentTime = newTimer;

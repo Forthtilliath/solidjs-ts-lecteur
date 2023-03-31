@@ -83,7 +83,7 @@ export function Controls() {
         <button
           type="button"
           class={styles.btn}
-          onClick={player.next()}
+          onClick={player.next(true)}
           disabled={player.isLastTrack()}
         >
           <BiSolidSkipNextCircle size={3} />
