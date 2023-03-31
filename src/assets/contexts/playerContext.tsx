@@ -212,20 +212,10 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   // };
 
   const previous = () => {
-    if (shuffle()) {
-      setPreviousIndexes((prevIndexes) => {
-        const last = prevIndexes.pop();
-        if (last !== undefined) play(last);
-        return prevIndexes;
-      });
-    } else {
-      // setCurrentIndex((prevIndex) => {
-      //   const index = (prevIndex - 1 + tracklist.length) % tracklist.length;
-      //   play(index);
-      //   return index;
-      // });
-    }
+    const prevTrack = playlist()[currentIndex() - 1];
+    if (prevTrack) play(prevTrack.id);
   };
+  
   const next =
     (force = false) =>
     (_event: Event) => {
