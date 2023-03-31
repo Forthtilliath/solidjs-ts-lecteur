@@ -2,7 +2,7 @@ import { usePlayer } from "@assets/contexts/playerContext";
 import styles from "@styles/player/Progressbar.module.scss";
 import { createMemo } from "solid-js";
 
-export function Progressbar() {
+export function ProgressBar() {
   const { timer, handleChangeTimer, duration } = usePlayer();
   const percentage = createMemo(() => (timer() / duration()) * 100);
 

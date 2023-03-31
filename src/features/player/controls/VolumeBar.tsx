@@ -1,5 +1,5 @@
 import { usePlayer } from "@assets/contexts/playerContext";
-import styles from "@styles/player/Controls.module.scss";
+import styles from "@styles/player/Footer.module.scss";
 
 export function VolumeBar() {
   const { volume, setVolume } = usePlayer();

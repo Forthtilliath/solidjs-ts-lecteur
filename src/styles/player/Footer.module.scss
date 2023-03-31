@@ -2,24 +2,43 @@
 
 .wrapper {
   width: 100%;
-  height: 80px;
-  padding-inline: 2rem;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  gap: 1rem;
-
+  height: var(--footer-height);
+  padding-inline: var(--footer-padding);
   border-top: 1px solid rgba($color-white, 0.25);
   background: $color-blue-dark;
-}
 
-.btn {
-  all: unset;
-  cursor: pointer;
+  // https://grid.layoutit.com/?id=ccrAueB
+  display: grid;
+  align-items: center;
+  justify-content: space-between;
+  justify-items: center;
+  grid-template-columns: 150px 1fr 290px;
+  grid-template-rows: 1fr;
+  gap: 0.5rem 1rem;
+  grid-template-areas: "controls player features";
+
+  // On retire à la largeur les paddings, les gaps et la taille des autres éléments
+  --footer-player: calc(
+    100dvw - var(--footer-padding) * 2 - var(--footer-controls) -
+      var(--footer-features) - var(--footer-gap) * 2
+  );
+
+  @media (width < 900px) {
+    --footer-player: calc(100dvw - var(--footer-padding) * 2);
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "player player" "controls features";
+  }
+
+  @media (width < 500px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: "player" "controls" "features";
+  }
 }
 
 .controls {
+  grid-area: controls;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -27,16 +46,21 @@
 }
 
 .features {
+  grid-area: features;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 240px;
+  // gap: .5rem;
+  width: 290px;
 }
 
-.status {
-  // width: 100%;
-  flex: 1;
-  max-width: 800px;
+.player {
+  grid-area: player;
+  width: 100%;
+  // flex: 1;
+  // max-width: 800px;
+  max-width: min(var(--footer-player), 800px);
+
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -57,13 +81,6 @@
   --height: $range-track-height;
   --color-thumb: $color-blue-dark;
   --color-track: $color-blue-medium;
-}
-
-.disabled,
-.btn:disabled,
-.btn[disabled] {
-  color: hsl(0deg 0% 100% / 25%);
-  pointer-events: none;
 }
 
 // input[type="range"] {
@@ -147,6 +164,10 @@
 // }
 
 .infos {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
   span {
     color: $color-blue-medium;
     font-size: 1.2rem;

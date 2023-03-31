@@ -35,7 +35,15 @@ h1, h2, h3, h4, h5, h6 {
 
 :root {
   --margin-main: 2rem;
+  --footer-height: 80px;
+  --footer-padding: 2rem;
+  --footer-gap: 1rem;
+  --footer-controls: 150px;
+  --footer-features: 290px;
 
+  @media (width < 900px) {
+    --footer-height: 150px;
+  }
   @media (width < 768px) {
     --margin-main: 0rem;
   }

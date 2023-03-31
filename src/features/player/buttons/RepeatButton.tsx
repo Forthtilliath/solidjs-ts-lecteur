@@ -1,6 +1,6 @@
 import { usePlayer } from "@assets/contexts/playerContext";
 import { BsRepeat, BsRepeat1, BsRepeatAll } from "@features/Icons";
-import styles from "@styles/player/Controls.module.scss";
+import styles from "@styles/global.module.scss";
 import { REPEAT } from "@utils/constants";
 import { Match, Switch } from "solid-js";
 

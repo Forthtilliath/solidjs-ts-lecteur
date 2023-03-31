@@ -1,5 +1,5 @@
 import { usePlayer } from "@assets/contexts/playerContext";
-import styles from "@styles/player/Playlist.module.scss";
+import styles from "@styles/Main.module.scss";
 import { For } from "solid-js";
 import { Track, TrackHeader } from "./Track";
 
@@ -7,7 +7,7 @@ export default function Playlist() {
   const { playlist } = usePlayer();
 
   return (
-    <div class={styles.wrapper}>
+    <div class={styles.wrapper_playlist}>
       <TrackHeader />
       <For each={playlist()} fallback={<div>Loading...</div>}>
         {(track, index) => {

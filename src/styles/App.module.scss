@@ -1,15 +1,29 @@
 .App {
   display: grid;
   grid-template-columns: [sidebar] 400px [main] 1fr;
-  grid-template-rows: [content] 1fr [footer] 80px;
-  gap: 0px 0px;
+  grid-template-rows: [content] 1fr [footer] var(--footer-height);
   grid-template-areas:
     "sidebar main"
     "footer footer";
+  gap: 0px 0px;
+
+  @media (width < 900px) {
+    grid-template-columns: [main] 1fr;
+    grid-template-rows: [content] 1fr [footer] var(--footer-height);
+    grid-template-areas:
+      "main"
+      "footer";
+
+    .sidebar {
+      display: none;
+    }
+  }
 }
 
 .footer {
   grid-area: footer;
+  box-shadow: 0 0px 1px 1px white;
+  z-index: 2;
 }
 .sidebar {
   grid-area: sidebar;

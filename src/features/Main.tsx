@@ -2,7 +2,7 @@ import styles from "@styles/Main.module.scss";
 
 import { usePlayer } from "@assets/contexts/playerContext";
 import Playlist from "./player/Playlist";
-import { Transition, TransitionGroup } from "solid-transition-group";
+import { TransitionGroup } from "solid-transition-group";
 import { Tracklist } from "./player/Tracklist";
 
 export function Main() {

@@ -1,8 +1,9 @@
 import styles from "@styles/Sidebar.module.scss";
-import BiSolidPlaylist, {
+import {
   BsDiscFill,
   FaSolidPause,
   FaSolidPlay,
+  BiSolidPlaylist,
 } from "@features/Icons";
 import { usePlayer } from "@assets/contexts/playerContext";
 import { Show } from "solid-js";
@@ -51,7 +52,9 @@ export function Sidebar() {
         class={classNames(styles.btnPlaylist, showPlaylist() && styles.active)}
       >
         <BiSolidPlaylist />
-        <span>{showPlaylist() ? "Fermer la playlist" : "Afficher la playlist"}</span>
+        <span>
+          {showPlaylist() ? "Fermer la playlist" : "Afficher la playlist"}
+        </span>
       </button>
     </div>
   );

@@ -1,8 +1,8 @@
-import styles from "@styles/player/Controls.module.scss";
+import styles from "@styles/player/Footer.module.scss";
 import { secondsToMMSS } from "@utils/methods/duration";
 import { Show } from "solid-js";
-import { Progressbar } from "./Progressbar";
 import { usePlayer } from "@assets/contexts/playerContext";
+import { ProgressBar } from "./ProgressBar";
 
 export function Player() {
   const { currentTrack, timer, duration, timerLeft, toggleTimerLeft } =
@@ -19,7 +19,7 @@ export function Player() {
             <div class={styles.timer}>
               <span>{secondsToMMSS(timer())}</span>
             </div>
-            <Progressbar />
+            <ProgressBar />
             <div class={styles.timer} onClick={toggleTimerLeft}>
               <Show
                 when={timerLeft()}

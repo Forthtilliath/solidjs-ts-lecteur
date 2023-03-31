@@ -1,14 +1,16 @@
-import styles from "@styles/player/Controls.module.scss";
-import { PreviousButton } from "./buttons/PreviousButton";
-import { PlayButton } from "./buttons/PlayButton";
-import { NextButton } from "./buttons/NextButton";
+import styles from "@styles/player/Footer.module.scss";
+import { PreviousButton } from "../buttons/PreviousButton";
 import { Player } from "./Player";
-import { RepeatButton } from "./buttons/RepeatButton";
-import { ShuffleButton } from "./buttons/ShuffleButton";
-import { VolumeButton } from "./buttons/VolumeButton";
+import {
+  PlayButton,
+  NextButton,
+  RepeatButton,
+  ShuffleButton,
+  VolumeButton,PlaylistButton
+} from "../buttons";
 import { VolumeBar } from "./VolumeBar";
 
-export function Controls() {
+export function Footer() {
   return (
     <div class={styles.wrapper}>
       {/* Boutons sur la gauche */}
@@ -18,13 +20,14 @@ export function Controls() {
         <NextButton />
       </div>
       {/* Titre avec progressbar */}
-      <div class={styles.status}>
+      <div class={styles.player}>
         <Player />
       </div>
       {/* Boutons sur la droite */}
       <div class={styles.features}>
         <RepeatButton />
         <ShuffleButton />
+        <PlaylistButton />
         <VolumeButton />
         <VolumeBar />
       </div>

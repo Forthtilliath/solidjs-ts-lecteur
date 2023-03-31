@@ -1,8 +1,6 @@
-// import styles from "@styles/player/PreviousButton.module.scss";
-
 import { usePlayer } from "@assets/contexts/playerContext";
 import { BiSolidSkipNextCircle } from "@features/Icons";
-import styles from "@styles/player/Controls.module.scss";
+import styles from "@styles/global.module.scss";
 
 export function NextButton() {
   const { next, isLastTrack } = usePlayer();

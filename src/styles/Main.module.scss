@@ -1,6 +1,25 @@
+@import "./variables";
+
 .wrapper {
   overflow: hidden auto;
-  height: calc(100dvh - 80px);
+  height: calc(100dvh - var(--footer-height));
 
   position: relative;
+}
+
+.wrapper_tracklist,
+.wrapper_playlist {
+  overflow-y: auto;
+  width: 100%;
+
+  position: absolute;
+  inset: 0;
+}
+
+.wrapper_playlist {
+  background-image: linear-gradient(
+    45deg,
+    $color-blue-medium 0%,
+    $color-blue-dark 100%
+  );
 }

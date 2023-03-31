@@ -6,7 +6,7 @@ import {
   FaSolidVolumeOff,
   FaSolidVolumeXmark,
 } from "@features/Icons";
-import styles from "@styles/player/Controls.module.scss";
+import styles from "@styles/global.module.scss";
 import { Match, Show, Switch } from "solid-js";
 
 export function VolumeButton() {
@@ -15,7 +15,7 @@ export function VolumeButton() {
     <button type="button" class={styles.btn} onClick={toggleMuted}>
       <Show
         when={!muted()}
-        fallback={<FaSolidVolumeXmark size={2} class={styles.disabled} />}
+        fallback={<FaSolidVolumeXmark size={1.5} class={styles.disabled} />}
       >
         <Switch>
           <Match when={volume() === 0}>
