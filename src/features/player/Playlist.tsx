@@ -1,4 +1,4 @@
-import { usePlayer } from "@assets/contexts/playerContext";
+import { usePlayer } from "@utils/contexts/playerContext";
 import styles from "@styles/Main.module.scss";
 import { For } from "solid-js";
 import { Track, TrackHeader } from "./Track";

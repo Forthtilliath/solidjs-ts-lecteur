@@ -1,6 +1,6 @@
 import styles from "@styles/Main.module.scss";
 
-import { usePlayer } from "@assets/contexts/playerContext";
+import { usePlayer } from "@utils/contexts/playerContext";
 import Playlist from "./player/Playlist";
 import { TransitionGroup } from "solid-transition-group";
 import { Tracklist } from "./player/Tracklist";
@@ -11,7 +11,7 @@ export function Main() {
   return (
     <div class={styles.wrapper}>
       {/* <TransitionGroup> */}
-        <Tracklist />
+      <Tracklist />
       {/* </TransitionGroup> */}
       <TransitionGroup
         onEnter={(el, done) => {

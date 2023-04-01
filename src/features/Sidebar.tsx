@@ -5,8 +5,9 @@ import {
   FaSolidPlay,
   BiSolidPlaylist,
 } from "@features/Icons";
-import { usePlayer } from "@assets/contexts/playerContext";
+import { usePlayer } from "@utils/contexts/playerContext";
 import { Show } from "solid-js";
+import { PATH } from "@utils/constants";
 
 export function Sidebar() {
   const {
@@ -28,7 +29,7 @@ export function Sidebar() {
         <div class={styles.track}>
           <div class={styles.cover} onClick={togglePlay}>
             <img
-              src={"/src/assets/covers/" + currentTrack()?.album.filename}
+              src={PATH.COVER + currentTrack()?.album.filename}
               alt="Couverture de l'album"
               class={styles.image}
             />

@@ -1,4 +1,4 @@
-import { usePlayer } from "@assets/contexts/playerContext";
+import { usePlayer } from "@utils/contexts/playerContext";
 import styles from "@styles/player/Footer.module.scss";
 
 export function VolumeBar() {

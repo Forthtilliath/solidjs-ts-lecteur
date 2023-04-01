@@ -10,7 +10,7 @@ import {
   useContext,
 } from "solid-js";
 import { tracks, albums } from "@utils/data";
-import { REPEAT } from "@utils/constants";
+import { PATH, REPEAT } from "@utils/constants";
 import { createStoredSignal } from "@signals/createStoredSignal";
 import * as Array from "@utils/methods/array";
 import { createStore } from "solid-js/store";
@@ -228,7 +228,7 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   createEffect(() => {
     console.log("Track en cours :", currentTrack().title);
     audio.currentTime = 0;
-    audio.src = "/src/assets/tracks/" + currentTrack().filename;
+    audio.src = PATH.TRACK + currentTrack().filename;
     audio.addEventListener("canplaythrough", handlePlayThrough);
   });
 

@@ -1,6 +1,6 @@
 // import styles from "@styles/player/PreviousButton.module.scss";
 
-import { usePlayer } from "@assets/contexts/playerContext";
+import { usePlayer } from "@utils/contexts/playerContext";
 import { BiSolidSkipPreviousCircle } from "@features/Icons";
 import styles from "@styles/global.module.scss";
 

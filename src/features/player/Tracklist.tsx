@@ -1,7 +1,7 @@
 import { For } from "solid-js";
 import styles from "@styles/Main.module.scss";
 import { Track, TrackHeader } from "./Track";
-import { usePlayer } from "@assets/contexts/playerContext";
+import { usePlayer } from "@utils/contexts/playerContext";
 
 export function Tracklist() {
   const { tracklist } = usePlayer();

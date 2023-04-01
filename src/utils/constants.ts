@@ -3,3 +3,8 @@ export const REPEAT = {
   ONE: 1,
   ALL: 2,
 } as const;
+
+export const PATH = {
+  COVER: "./assets/covers/",
+  TRACK: "./assets/tracks/",
+};

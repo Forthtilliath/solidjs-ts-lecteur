@@ -16,7 +16,6 @@
       "@styles/*": ["./src/styles/*"],
       "@signals/*": ["./src/utils/signals/*"],
       "@utils/*": ["./src/utils/*"],
-      "@assets/*": ["./src/assets/*"],
     }
   },
   "include": ["src"]

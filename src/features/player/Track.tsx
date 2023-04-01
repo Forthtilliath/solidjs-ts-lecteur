@@ -1,8 +1,9 @@
-import { usePlayer } from "@assets/contexts/playerContext";
+import { usePlayer } from "@utils/contexts/playerContext";
 import { FaSolidPause, FaSolidPlay } from "@features/Icons";
 import styles from "@styles/player/Track.module.scss";
 import { secondsToMMSS } from "@utils/methods/duration";
 import { createMemo, Show } from "solid-js";
+import { PATH } from "@utils/constants";
 
 type Props = TrackAlbum & {
   index: number;
@@ -37,7 +38,7 @@ export function Track(props: Props) {
         classList={{ [styles.active]: active() }}
         ref={coverRef!}
       >
-        <img src={"/src/assets/covers/" + props.album.filename} alt="cover" />
+        <img src={PATH.COVER + props.album.filename} alt="cover" />
         <button class={styles.playIcon}>
           <Show when={isPlaying()} fallback={<FaSolidPlay size={2} />}>
             <FaSolidPause size={2} />

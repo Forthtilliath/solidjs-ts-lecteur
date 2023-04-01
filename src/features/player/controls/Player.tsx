@@ -1,7 +1,7 @@
 import styles from "@styles/player/Footer.module.scss";
 import { secondsToMMSS } from "@utils/methods/duration";
 import { Show } from "solid-js";
-import { usePlayer } from "@assets/contexts/playerContext";
+import { usePlayer } from "@utils/contexts/playerContext";
 import { ProgressBar } from "./ProgressBar";
 
 export function Player() {

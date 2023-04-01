@@ -1,4 +1,4 @@
-import { usePlayer } from "@assets/contexts/playerContext";
+import { usePlayer } from "@utils/contexts/playerContext";
 import { FaSolidCirclePause, FaSolidCirclePlay } from "@features/Icons";
 import styles from "@styles/global.module.scss";
 import { Show } from "solid-js";
