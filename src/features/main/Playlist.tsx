@@ -3,7 +3,7 @@ import styles from "@styles/Main.module.scss";
 import { For } from "solid-js";
 import { Track, TrackHeader } from "./Track";
 
-export default function Playlist() {
+export function Playlist() {
   const { playlist } = usePlayer();
 
   return (

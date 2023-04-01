@@ -1,6 +1,6 @@
 import { usePlayer } from "@utils/contexts/playerContext";
 import { FaSolidPause, FaSolidPlay } from "@features/Icons";
-import styles from "@styles/player/Track.module.scss";
+import styles from "@styles/Track.module.scss";
 import { secondsToMMSS } from "@utils/methods/duration";
 import { createMemo, Show } from "solid-js";
 import { PATH } from "@utils/constants";

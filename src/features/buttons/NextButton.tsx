@@ -1,6 +1,6 @@
 import { usePlayer } from "@utils/contexts/playerContext";
 import { BiSolidSkipNextCircle } from "@features/Icons";
-import styles from "@styles/global.module.scss";
+import styles from "@styles/Button.module.scss";
 
 export function NextButton() {
   const { next, isLastTrack } = usePlayer();

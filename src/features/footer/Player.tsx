@@ -1,4 +1,4 @@
-import styles from "@styles/player/Footer.module.scss";
+import styles from "@styles/Footer.module.scss";
 import { secondsToMMSS } from "@utils/methods/duration";
 import { Show } from "solid-js";
 import { usePlayer } from "@utils/contexts/playerContext";

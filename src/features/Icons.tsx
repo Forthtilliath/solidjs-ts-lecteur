@@ -8,7 +8,7 @@ type Props = ComponentProps<"svg"> & {
 };
 
 export function BsDiscFill(props: Props) {
-  const [{size}, others] = splitProps(props, ["size"]);
+  const [{ size }, others] = splitProps(props, ["size"]);
   return (
     <svg
       fill="currentColor"
@@ -26,7 +26,7 @@ export function BsDiscFill(props: Props) {
 }
 
 export function FaSolidCirclePlay(props: Props) {
-  const [{size}, others] = splitProps(props, ["size"]);
+  const [{ size }, others] = splitProps(props, ["size"]);
   return (
     <svg
       fill="currentColor"
@@ -44,7 +44,7 @@ export function FaSolidCirclePlay(props: Props) {
 }
 
 export function BiSolidSkipPreviousCircle(props: Props) {
-  const [{size}, others] = splitProps(props, ["size"]);
+  const [{ size }, others] = splitProps(props, ["size"]);
   return (
     <svg
       fill="currentColor"
@@ -62,7 +62,7 @@ export function BiSolidSkipPreviousCircle(props: Props) {
 }
 
 export function BiSolidSkipNextCircle(props: Props) {
-  const [{size}, others] = splitProps(props, ["size"]);
+  const [{ size }, others] = splitProps(props, ["size"]);
   return (
     <svg
       fill="currentColor"
@@ -80,7 +80,7 @@ export function BiSolidSkipNextCircle(props: Props) {
 }
 
 export function FaSolidCirclePause(props: Props) {
-  const [{size}, others] = splitProps(props, ["size"]);
+  const [{ size }, others] = splitProps(props, ["size"]);
   return (
     <svg
       fill="currentColor"
@@ -98,7 +98,7 @@ export function FaSolidCirclePause(props: Props) {
 }
 
 export function BiRegularShuffle(props: Props) {
-  const [{size}, others] = splitProps(props, ["size"]);
+  const [{ size }, others] = splitProps(props, ["size"]);
   return (
     <svg
       fill="currentColor"
@@ -117,7 +117,7 @@ export function BiRegularShuffle(props: Props) {
 }
 
 export function BsRepeat1(props: Props) {
-  const [{size}, others] = splitProps(props, ["size"]);
+  const [{ size }, others] = splitProps(props, ["size"]);
   return (
     <svg
       fill="currentColor"
@@ -136,7 +136,7 @@ export function BsRepeat1(props: Props) {
 }
 
 export function BsRepeat(props: Props) {
-  const [{size}, others] = splitProps(props, ["size"]);
+  const [{ size }, others] = splitProps(props, ["size"]);
   return (
     <svg
       fill="currentColor"
@@ -154,7 +154,7 @@ export function BsRepeat(props: Props) {
 }
 
 export function BsRepeatAll(props: Props) {
-  const [{size}, others] = splitProps(props, ["size"]);
+  const [{ size }, others] = splitProps(props, ["size"]);
   return (
     <svg
       fill="currentColor"
@@ -181,13 +181,13 @@ export function BsRepeatAll(props: Props) {
 }
 
 export function FaSolidVolumeOff(props: Props) {
-  const [{size}, others] = splitProps(props, ["size"]);
+  const [{ size }, others] = splitProps(props, ["size"]);
   return (
     <svg
       fill="currentColor"
       stroke-width="0"
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 320 512"
+      viewBox="0 0 640 512"
       height={`${size ?? 1}em`}
       width={`${size ?? 1}em`}
       style="overflow: visible;"
@@ -199,13 +199,13 @@ export function FaSolidVolumeOff(props: Props) {
 }
 
 export function FaSolidVolumeLow(props: Props) {
-  const [{size}, others] = splitProps(props, ["size"]);
+  const [{ size }, others] = splitProps(props, ["size"]);
   return (
     <svg
       fill="currentColor"
       stroke-width="0"
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 640  512"
+      viewBox="0 0 640 512"
       height={`${size ?? 1}em`}
       width={`${size ?? 1}em`}
       style="overflow: visible;"
@@ -217,7 +217,7 @@ export function FaSolidVolumeLow(props: Props) {
 }
 
 export function FaSolidVolumeMedium(props: Props) {
-  const [{size}, others] = splitProps(props, ["size"]);
+  const [{ size }, others] = splitProps(props, ["size"]);
   return (
     <svg
       fill="currentColor"
@@ -235,7 +235,7 @@ export function FaSolidVolumeMedium(props: Props) {
 }
 
 export function FaSolidVolumeHigh(props: Props) {
-  const [{size}, others] = splitProps(props, ["size"]);
+  const [{ size }, others] = splitProps(props, ["size"]);
   return (
     <svg
       fill="currentColor"
@@ -253,13 +253,13 @@ export function FaSolidVolumeHigh(props: Props) {
 }
 
 export function FaSolidVolumeXmark(props: Props) {
-  const [{size}, others] = splitProps(props, ["size"]);
+  const [{ size }, others] = splitProps(props, ["size"]);
   return (
     <svg
       fill="currentColor"
       stroke-width="0"
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 576 512"
+      viewBox="0 0 640 512"
       height={`${size ?? 1}em`}
       width={`${size ?? 1}em`}
       style="overflow: visible;"
@@ -271,7 +271,7 @@ export function FaSolidVolumeXmark(props: Props) {
 }
 
 export function FaSolidPlay(props: Props) {
-  const [{size}, others] = splitProps(props, ["size"]);
+  const [{ size }, others] = splitProps(props, ["size"]);
   return (
     <svg
       fill="currentColor"
@@ -289,7 +289,7 @@ export function FaSolidPlay(props: Props) {
 }
 
 export function FaSolidPause(props: Props) {
-  const [{size}, others] = splitProps(props, ["size"]);
+  const [{ size }, others] = splitProps(props, ["size"]);
   return (
     <svg
       fill="currentColor"
@@ -307,7 +307,7 @@ export function FaSolidPause(props: Props) {
 }
 
 export function BiSolidPlaylist(props: Props) {
-  const [{size}, others] = splitProps(props, ["size"]);
+  const [{ size }, others] = splitProps(props, ["size"]);
   return (
     <svg
       fill="currentColor"

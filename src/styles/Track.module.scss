@@ -1,4 +1,4 @@
-@import "../variables";
+@import "./variables";
 
 .wrapper,
 .header {
@@ -100,14 +100,11 @@
 .title,
 .artist,
 .album {
-  // flex: 1;
-  // max-width: 500px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
 .title {
-  // flex: 2;
   grid-area: title;
 }
 .artist {
@@ -116,16 +113,6 @@
 .album {
   grid-area: album;
 }
-// @media (width < 1500px) {
-//   .album {
-//     display: none;
-//   }
-// }
-// @media (width < 1300px) {
-//   .artist {
-//     display: none;
-//   }
-// }
 
 .duration {
   grid-area: duration;

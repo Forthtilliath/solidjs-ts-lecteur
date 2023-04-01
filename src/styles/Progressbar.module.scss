@@ -1,12 +1,10 @@
-@import "../variables";
+@import "./variables";
 
 /* Range Input Reset */
 .range {
   --percent: 0;
   --color-1: #{$color-blue-medium};
   --color-2: #{$color-white};
-  // --color-1: blue;
-  // --color-2: grey;
   appearance: none;
   background: transparent;
   border: none;

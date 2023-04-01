@@ -1,6 +1,13 @@
+@import "./variables";
+
 .btn {
   all: unset;
   cursor: pointer;
+  color: $color-blue-light;
+
+  &:hover {
+    color: white;
+  }
 }
 
 .disabled,

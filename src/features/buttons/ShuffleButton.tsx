@@ -1,6 +1,6 @@
 import { usePlayer } from "@utils/contexts/playerContext";
 import { BiRegularShuffle } from "@features/Icons";
-import styles from "@styles/global.module.scss";
+import styles from "@styles/Button.module.scss";
 import { Show } from "solid-js";
 
 export function ShuffleButton() {

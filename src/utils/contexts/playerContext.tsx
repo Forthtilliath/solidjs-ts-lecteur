@@ -112,7 +112,7 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   const [isPlaying, setIsPlaying] = createSignal(false);
   const [muted, setMuted] = createStoredSignal("muted", false);
   const [shuffle, setShuffle] = createStoredSignal("shuffle", false);
-  const [showPlaylist, setShowPlaylist] = createSignal(false);
+  const [showPlaylist, setShowPlaylist] = createStoredSignal("playlist", false);
   const [playlist, setPlaylist] = createSignal(
     shuffle() ? shuffleTracks(tracklist, tracklist[0]) : tracklist
   );
@@ -129,7 +129,7 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   const handlePlayThrough = () => {
     setDuration(audio.duration);
     isPlaying() && audio.play();
-  }
+  };
 
   /**
    * Lance l'écoute de la musique à l'index choisit.
@@ -154,6 +154,7 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
 
   const setVolume = (n: number) => {
     audio.volume = n;
+    setMuted(n === 0);
     _setVolume(n);
   };
 
@@ -216,7 +217,7 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   };
   const handleTimeUpdate = () => {
     setTimer(audio.currentTime);
-  }
+  };
 
   audio.addEventListener("ended", next());
   audio.addEventListener("timeupdate", handleTimeUpdate);

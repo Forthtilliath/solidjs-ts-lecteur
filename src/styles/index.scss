@@ -15,17 +15,13 @@ html, body {
 body {
   font-family: $font-text;
   color: $color-white;
-  // background: $color-black;
-  // background: $color-blue-medium;
+  overflow-x: hidden;
   
   background-image: linear-gradient(
     120deg,
     $color-blue-dark 0%,
     $color-blue-medium 100%
   );
-
-  overflow-x: hidden;
-
   transition: background 0.1s;
 }
 

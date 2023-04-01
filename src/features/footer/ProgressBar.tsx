@@ -1,5 +1,5 @@
 import { usePlayer } from "@utils/contexts/playerContext";
-import styles from "@styles/player/Progressbar.module.scss";
+import styles from "@styles/Progressbar.module.scss";
 import { createMemo } from "solid-js";
 
 export function ProgressBar() {

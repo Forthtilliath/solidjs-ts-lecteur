@@ -1,34 +1,58 @@
-## Usage
+# Spotube
 
-Those templates dependencies are maintained via [pnpm](https://pnpm.io) via `pnpm up -Lri`.
+> Spotube est une application de streaming musical qui te donne accès à quelques titres. 
 
-This is the reason you see a `pnpm-lock.yaml`. That being said, any package manager will work. This file can be safely be removed once you clone a template.
+<p>
+  <a aria-label="License" href="#">
+    <img alt="" src="https://img.shields.io/npm/l/classnames.svg?style=for-the-badge&labelColor=579805">
+  </a>
+</p>
 
-```bash
-$ npm install # or pnpm install or yarn install
-```
+## Contexte du projet
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+L'application a été réalisé dans le cadre d'un concours : Intégrer une page avec un lecteur audio/vidéo.
 
-## Available Scripts
+Plus d'informations ici : [discord du Repaire du Web](https://discord.com/channels/655077317911117860/1041772720066674760/1087289852095119440).
 
-In the project directory, you can run:
+## Outils utilisés
 
-### `npm dev` or `npm start`
+Ce projet a été réalisé à l'aide de la bibliothèque ``SolidJS``, en ``typescript``. Pour le style, j'ai utilisé à ``sass`` avec les ``modules css``. Pour la constuction, j'ai eu recours à ``Vite``.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Description de l'application
 
-The page will reload if you make edits.<br>
+La projet réalisé est donc une application de streaming musical, utilisant plusieurs titres de musique.
 
-### `npm run build`
+En premier lieu, voici la vue de l'application. A gauche se trouve la sidebar avec la cover de l'album, le titre et l'artiste, ainsi qu'un bouton pour afficher ou non la playlist.
+A droite se trouve la liste de lecture. Il est possible de cliquer sur un titre pour démarrer l'écoute. Un bouton ``lecture``/``pause`` est aussi présent sur la cover de la sidebar et sur la cover du titre en cours. 
 
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
+![Alt text](public/assets/doc/tracklist.png)![Alt text](public/assets/doc/playlist.png)
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+A ceci, un ensemble de contrôles, un lecteur et des fonctionnalités sont disponible dans le bas de l'écran.
 
-## Deployment
+![Alt text](public/assets/doc/footer.png)
 
-You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
+### Liste des contrôles
+
+- **Précédent** : Met la musique précédente à partir de la liste de lecture. Si c'est le premier titre, le bouton est désactivé.
+- **Suivant** : Met la musique suivante à partir de la liste de lecture. Si c'est le dernier titre, le bouton est désactivé.
+- **Lecture/Pause** : Alterne entre la lecture et la pause du titre en cours de lecture.
+
+### Lecteur
+
+- **Titre et artiste** : Titre de la musique et artiste du titre en cours de lecture
+- **Timer** : Temps actuel de la lecture audio
+- **Barre de lecture** : Affiche la progression de la lecture du titre. Il est aussi possible de cliquer sur celle ci pour mettre à jour la progression.
+- **Temps restant** : Affiche la durée totale du titre en cours. Il est également possible de cliquer dessus pour affiche le temps restant jusqu'à la fin du titre
+
+### Fonctionnalités
+
+- **Repeat** : Le bouton repeat permet d'alterner entre 3 modes :
+  - **Repeat off** : Désactive le mode repeat ;
+  - **Repeat one** : Permet de répéter un titre (en cliquant sur le bouton suivant, cette option est ignorée) ;
+  - **Repeat all** : Permet de répéter la liste de lecture.
+- **Liste de lecture** : La liste de lecture affiche tous les titres. L'ordre de lecture des titres se réfère à la liste de lecture.
+- **Mode aléatoire** : Le bouton permet d'active ou non le mode aléatoire. Activer le mode aléatoire génère la liste de lecture de façon aléatoire. Tous les titres seront écoutés une seule fois. Désactiver le mode remet les titres dans l'ordre de base. Réactiver à nouveau le mode génèrera un nouvel ordre de lecture.
+- **Muet** : Le bouton permet d'activer ou non le son. Réactiver le son remet le son au volume auquel il était.
+- **Barre de volume** : Modifier le volume de la lecture. Si le nouveau son n'est pas 0, l'option muet est désactivée.
+
+Les réglages sont enregistrés dans le localStorage afin d'améliorer le confort de l'utilisateur.

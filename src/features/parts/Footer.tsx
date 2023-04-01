@@ -1,14 +1,15 @@
-import styles from "@styles/player/Footer.module.scss";
-import { PreviousButton } from "../buttons/PreviousButton";
-import { Player } from "./Player";
+import { Player, VolumeBar } from "@features/footer";
 import {
+  PreviousButton,
   PlayButton,
   NextButton,
   RepeatButton,
   ShuffleButton,
-  VolumeButton,PlaylistButton
-} from "../buttons";
-import { VolumeBar } from "./VolumeBar";
+  VolumeButton,
+  PlaylistButton,
+} from "@features/buttons";
+
+import styles from "@styles/Footer.module.scss";
 
 export function Footer() {
   return (

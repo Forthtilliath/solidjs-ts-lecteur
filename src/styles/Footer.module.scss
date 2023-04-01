@@ -1,0 +1,172 @@
+@import "./variables";
+
+.wrapper {
+  width: 100%;
+  height: var(--footer-height);
+  padding-inline: var(--footer-padding);
+  border-top: 1px solid rgba($color-white, 0.25);
+  background: $color-blue-dark;
+
+  // https://grid.layoutit.com/?id=ccrAueB
+  display: grid;
+  align-items: center;
+  justify-content: space-between;
+  justify-items: center;
+  grid-template-columns: 150px 1fr 290px;
+  grid-template-rows: 1fr;
+  gap: 0.5rem 1rem;
+  grid-template-areas: "controls player features";
+
+  // On retire à la largeur les paddings, les gaps et la taille des autres éléments
+  --footer-player: calc(
+    100dvw - var(--footer-padding) * 2 - var(--footer-controls) -
+      var(--footer-features) - var(--footer-gap) * 2
+  );
+
+  @media (width < 900px) {
+    --footer-player: calc(100dvw - var(--footer-padding) * 2);
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "player player" "controls features";
+  }
+
+  @media (width < 500px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: "player" "controls" "features";
+  }
+}
+
+.controls {
+  grid-area: controls;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 150px;
+}
+
+.features {
+  grid-area: features;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 290px;
+}
+
+.player {
+  grid-area: player;
+  width: 100%;
+  max-width: min(var(--footer-player), 800px);
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.trackbarWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.timer {
+  font-size: 0.8rem;
+}
+
+.trackbar {
+  width: 100%;
+}
+
+.infos {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
+  span {
+    color: $color-blue-medium;
+    font-size: 1.2rem;
+    padding-inline: 0.2rem;
+  }
+}
+
+.volume {
+  appearance: none;
+  width: 100%;
+  background: transparent;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.volume::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 17px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px $color-blue-medium;
+  background: $color-blue-medium;
+  border-radius: 50px;
+  padding-inline: 1px;
+}
+.volume::-webkit-slider-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50px;
+  background: $color-blue-dark;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: 1px;
+}
+.volume:hover::-webkit-slider-thumb {
+  background: $color-blue-light;
+}
+.volume:focus::-webkit-slider-runnable-track {
+  background: $color-blue-medium;
+}
+.volume::-moz-range-track {
+  width: 100%;
+  height: 17px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px $color-blue-medium;
+  background: $color-blue-medium;
+  border-radius: 50px;
+  padding-inline: 1px;
+}
+.volume::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50px;
+  background: $color-blue-dark;
+  cursor: pointer;
+}
+.volume::-ms-track {
+  width: 100%;
+  height: 17px;
+  cursor: pointer;
+  background: transparent;
+  color: transparent;
+}
+.volume::-ms-fill-lower {
+  background: $color-blue-medium;
+  border-radius: 100px;
+  box-shadow: 1px 1px 1px $color-blue-medium;
+}
+.volume::-ms-fill-upper {
+  background: $color-blue-medium;
+  border-radius: 100px;
+  box-shadow: 1px 1px 1px $color-blue-medium;
+}
+.volume::-ms-thumb {
+  margin-top: 1px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50px;
+  background: $color-blue-dark;
+  cursor: pointer;
+}
+.volume:focus::-ms-fill-lower {
+  background: $color-blue-medium;
+}
+.volume:focus::-ms-fill-upper {
+  background: $color-blue-medium;
+}

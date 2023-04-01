@@ -1,10 +1,9 @@
 import type { Component } from "solid-js";
 
-import styles from "@styles/App.module.scss";
-import { Footer } from "@features/player/controls/Footer";
-import { Sidebar } from "@features/Sidebar";
 import { PlayerContextProvider } from "@utils/contexts/playerContext";
-import { Main } from "@features/Main";
+import { Footer, Sidebar, Main } from "@features/parts";
+
+import styles from "@styles/App.module.scss";
 
 const App: Component = () => {
   return (
@@ -13,7 +12,7 @@ const App: Component = () => {
         <div class={styles.sidebar}>
           <Sidebar />
         </div>
-        <main class={styles.trackslist}>
+        <main class={styles.main}>
           <Main />
         </main>
         <footer class={styles.footer}>

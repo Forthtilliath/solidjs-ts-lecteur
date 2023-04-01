@@ -1,18 +1,16 @@
-import styles from "@styles/Main.module.scss";
+import { TransitionGroup } from "solid-transition-group";
 
 import { usePlayer } from "@utils/contexts/playerContext";
-import Playlist from "./player/Playlist";
-import { TransitionGroup } from "solid-transition-group";
-import { Tracklist } from "./player/Tracklist";
+import { Playlist, Tracklist } from "@features/main";
+
+import styles from "@styles/Main.module.scss";
 
 export function Main() {
   const { showPlaylist } = usePlayer();
 
   return (
     <div class={styles.wrapper}>
-      {/* <TransitionGroup> */}
       <Tracklist />
-      {/* </TransitionGroup> */}
       <TransitionGroup
         onEnter={(el, done) => {
           const a = el.animate(

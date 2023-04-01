@@ -1,4 +1,5 @@
-import styles from "@styles/Sidebar.module.scss";
+import { Show } from "solid-js";
+
 import {
   BsDiscFill,
   FaSolidPause,
@@ -6,8 +7,9 @@ import {
   BiSolidPlaylist,
 } from "@features/Icons";
 import { usePlayer } from "@utils/contexts/playerContext";
-import { Show } from "solid-js";
 import { PATH } from "@utils/constants";
+
+import styles from "@styles/Sidebar.module.scss";
 
 export function Sidebar() {
   const {

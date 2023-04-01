@@ -1,8 +1,8 @@
-// import styles from "@styles/player/PreviousButton.module.scss";
+// import styles from "@styles/PreviousButton.module.scss";
 
 import { usePlayer } from "@utils/contexts/playerContext";
 import { BiSolidSkipPreviousCircle } from "@features/Icons";
-import styles from "@styles/global.module.scss";
+import styles from "@styles/Button.module.scss";
 
 export function PreviousButton() {
   const { previous, isFirstTrack } = usePlayer();
