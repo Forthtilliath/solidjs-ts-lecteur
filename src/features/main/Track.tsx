@@ -10,8 +10,8 @@ type Props = TrackAlbum & {
 };
 
 export function Track(props: Props) {
-  const { currentTrack, play, togglePlay, isPlaying } = usePlayer();
-  const active = createMemo(() => currentTrack()?.id === props.id);
+  const { store, play, togglePlay } = usePlayer();
+  const active = createMemo(() => store.currentTrack.id === props.id);
   let coverRef: HTMLDivElement;
 
   /**
@@ -40,7 +40,7 @@ export function Track(props: Props) {
       >
         <img src={PATH.COVER + props.album.filename} alt="cover" />
         <button class={styles.playIcon}>
-          <Show when={isPlaying()} fallback={<FaSolidPlay size={2} />}>
+          <Show when={store.isPlaying} fallback={<FaSolidPlay size={2} />}>
             <FaSolidPause size={2} />
           </Show>
         </button>

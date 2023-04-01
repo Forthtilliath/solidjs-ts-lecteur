@@ -3,8 +3,8 @@ import styles from "@styles/Progressbar.module.scss";
 import { createMemo } from "solid-js";
 
 export function ProgressBar() {
-  const { timer, handleChangeTimer, duration } = usePlayer();
-  const percentage = createMemo(() => (timer() / duration()) * 100);
+  const { store, setTimer } = usePlayer();
+  const percentage = createMemo(() => (store.timer / store.duration) * 100);
 
   return (
     <input
@@ -12,10 +12,10 @@ export function ProgressBar() {
       class={styles.range}
       style={{ "--percent": `${percentage()}%` }}
       min={0}
-      max={duration()}
-      value={timer()}
+      max={store.duration}
+      value={store.timer}
       step="0.01"
-      onInput={(e) => handleChangeTimer(e.currentTarget.valueAsNumber)}
+      onInput={(e) => setTimer(e.currentTarget.valueAsNumber)}
     />
   );
 }

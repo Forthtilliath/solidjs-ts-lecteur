@@ -6,7 +6,7 @@ import { Playlist, Tracklist } from "@features/main";
 import styles from "@styles/Main.module.scss";
 
 export function Main() {
-  const { showPlaylist } = usePlayer();
+  const { store } = usePlayer();
 
   return (
     <div class={styles.wrapper}>
@@ -31,7 +31,7 @@ export function Main() {
           a.finished.then(done);
         }}
       >
-        {showPlaylist() && <Playlist />}
+        {store.showPlaylist && <Playlist />}
       </TransitionGroup>
     </div>
   );

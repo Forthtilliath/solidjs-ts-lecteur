@@ -4,11 +4,11 @@ import styles from "@styles/Button.module.scss";
 import { Show } from "solid-js";
 
 export function ShuffleButton() {
-  const { shuffle, toggleShuffle } = usePlayer();
+  const { store, toggleShuffle } = usePlayer();
   return (
     <button type="button" class={styles.btn} onClick={toggleShuffle}>
       <Show
-        when={shuffle()}
+        when={store.shuffle}
         fallback={<BiRegularShuffle size={2} class={styles.disabled} />}
       >
         <BiRegularShuffle size={2} />

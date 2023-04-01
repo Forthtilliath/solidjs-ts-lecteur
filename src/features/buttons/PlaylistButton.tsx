@@ -4,11 +4,11 @@ import styles from "@styles/Button.module.scss";
 import { Show } from "solid-js";
 
 export function PlaylistButton() {
-  const { showPlaylist, toggleShowPlaylist } = usePlayer();
+  const { store, toggleShowPlaylist } = usePlayer();
   return (
     <button type="button" class={styles.btn} onClick={toggleShowPlaylist}>
       <Show
-        when={showPlaylist()}
+        when={store.showPlaylist}
         fallback={<BiSolidPlaylist size={2} class={styles.disabled} />}
       >
         <BiSolidPlaylist size={2} />

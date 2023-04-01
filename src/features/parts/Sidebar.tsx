@@ -12,13 +12,7 @@ import { PATH } from "@utils/constants";
 import styles from "@styles/Sidebar.module.scss";
 
 export function Sidebar() {
-  const {
-    currentTrack,
-    togglePlay,
-    isPlaying,
-    toggleShowPlaylist,
-    showPlaylist,
-  } = usePlayer();
+  const { store, togglePlay, toggleShowPlaylist } = usePlayer();
 
   return (
     <div class={styles.wrapper}>
@@ -27,23 +21,23 @@ export function Sidebar() {
         <h1 class={styles.title}>Spotube</h1>
       </div>
 
-      <Show when={currentTrack()}>
+      <Show when={store.currentTrack}>
         <div class={styles.track}>
           <div class={styles.cover} onClick={togglePlay}>
             <img
-              src={PATH.COVER + currentTrack()?.album.filename}
+              src={PATH.COVER + store.currentTrack?.album.filename}
               alt="Couverture de l'album"
               class={styles.image}
             />
             <button class={styles.playIcon}>
-              <Show when={isPlaying()} fallback={<FaSolidPlay size={4} />}>
+              <Show when={store.isPlaying} fallback={<FaSolidPlay size={4} />}>
                 <FaSolidPause size={4} />
               </Show>
             </button>
           </div>
           <div class={styles.infos}>
-            <p class={styles.title}>{currentTrack()?.title}</p>
-            <p class={styles.artist}>{currentTrack()?.artist}</p>
+            <p class={styles.title}>{store.currentTrack?.title}</p>
+            <p class={styles.artist}>{store.currentTrack?.artist}</p>
           </div>
         </div>
       </Show>
@@ -52,11 +46,11 @@ export function Sidebar() {
         type="button"
         onClick={toggleShowPlaylist}
         class={styles.btnPlaylist}
-        classList={{ [styles.active]: showPlaylist() }}
+        classList={{ [styles.active]: store.showPlaylist }}
       >
         <BiSolidPlaylist />
         <span>
-          {showPlaylist() ? "Fermer la playlist" : "Afficher la playlist"}
+          {store.showPlaylist ? "Fermer la playlist" : "Afficher la playlist"}
         </span>
       </button>
     </div>

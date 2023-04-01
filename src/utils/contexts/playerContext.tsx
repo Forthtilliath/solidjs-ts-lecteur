@@ -1,192 +1,93 @@
 import {
-  Accessor,
   createContext,
   createEffect,
   createMemo,
-  createSignal,
   onCleanup,
   ParentProps,
-  Setter,
   useContext,
 } from "solid-js";
+
 import { tracks, albums } from "@utils/data";
 import { PATH, REPEAT } from "@utils/constants";
-import { createStoredSignal } from "@signals/createStoredSignal";
 import * as Array from "@utils/methods/array";
-import { createStore } from "solid-js/store";
-import { getParsedStorage } from "@utils/methods/storage";
+import { toggle } from "@utils/methods/boolean";
 
-export type PlayerContextModel = {
-  /** Liste des musiques */
-  tracklist: TrackAlbum[];
-  playlist: Accessor<TrackAlbum[]>;
-  /** ``true`` si la chanson est la dernière de la liste */
-  isFirstTrack: Accessor<boolean>;
-  isLastTrack: Accessor<boolean>;
-  /** Index du track en cours d'écoute */
-  currentIndex: Accessor<number>;
-  /** Track en cours d'écoute */
-  currentTrack: Accessor<TrackAlbum>;
-  /** Met la musique précédente (enregistrée dans previousTracks si shuffle est
-   * activée, index précédent sinon) */
-  previous: () => void;
-  /** Met la musique suivante (prend en compte ``shuffle`` et ``repeat``) */
-  next: (force?: boolean) => (_event: Event) => void;
-  /** Met en lecture */
-  play: (index: number) => void;
-  /** Alterne entre lecture et pause */
-  togglePlay: () => void;
-  /** ``true`` si le track est en lecture, ``false`` s'il est en pause */
-  isPlaying: Accessor<boolean>;
-  /** Mode de repeat parmi ``off``, ``one`` et ``all`` */
-  repeat: Accessor<RepeatRange>;
-  /** Alterne entre ``off``, ``one`` et ``all`` */
-  toggleRepeat: () => void;
-  /** Volume de la musique */
-  volume: Accessor<number>;
-  /** Modifie le volume */
-  setVolume: (n: number) => void;
-  /** ``true`` si le son est coupé, ``false`` sinon */
-  muted: Accessor<boolean>;
-  /** Alterne entre muet ou non */
-  toggleMuted: () => void;
-  /** ``true`` si la lecture est en mode aléatoire, ``false`` sinon */
-  shuffle: Accessor<boolean>;
-  /** Alterne entre lecture aléatoire et lecture des tracks les uns après les autres */
-  toggleShuffle: () => void;
-  /** Timer de la musique en cours de lecture */
-  timer: Accessor<number>;
-  /** Met à jour le timer */
-  setTimer: Setter<number>;
-  /** Durée restante de la musique en cours */
-  timerLeft: Accessor<boolean>;
-  /** Alterne entre temps restant et durée de la musique */
-  toggleTimerLeft: () => void;
-  /** Affiche ou non la playlist */
-  showPlaylist: Accessor<boolean>;
-  toggleShowPlaylist: () => void;
-  handleChangeTimer: (newTimer: number) => void;
-  duration: Accessor<number>;
-};
+import { createStorage } from "@signals/createStorage";
 
-export type PlayerContextProps = {};
-
-const PlayerContext = createContext<PlayerContextModel>();
 const tracklist = addAlbums(tracks);
-
 const REPEATS = Object.values(REPEAT);
 
-// type PlayerStore = {
-//   currentIndex: number;
-//   timer: number;
-//   repeat: RepeatRange;
-//   volume: number;
-// };
+const initialPlayerStore: PlayerStore = {
+  isPlaying: false,
 
-// const defaultPlayerStore: PlayerStore = {
-//   currentIndex: 0,
-//   timer: 0,
-//   repeat: REPEAT.OFF,
-//   volume: 50,
-// };
-// const defaultPlayerStoreStored = Object.assign(
-//   defaultPlayerStore,
-//   getParsedStorage(localStorage)
-// );
+  timer: 0,
+  duration: 0,
+  timerLeft: false,
 
-export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
-  // const [state, setState] = createStore<PlayerStore>(defaultPlayerStoreStored);
-  // console.log(state);
+  repeat: REPEAT.OFF,
+  shuffle: false,
+  muted: false,
+  showPlaylist: false,
+  volume: 0.5,
+
+  playlist: tracklist,
+  currentTrack: tracklist[0],
+};
+
+const PlayerContext = createContext<PlayerContextModel>();
+
+export function PlayerContextProvider(props: ParentProps) {
+  const [store, setStore] = createStorage("player", initialPlayerStore);
+  // Bloque le fait d'avoir la lecture au reload
+  setStore("isPlaying", false);
 
   const audio = new Audio();
-  const [duration, setDuration] = createSignal(0);
+  // Remet le lecteur à l'endroit où on avait quitté
+  audio.currentTime = store.timer;
 
-  const [timer, setTimer] = createSignal(0);
-  const [repeat, setRepeat] = createStoredSignal<RepeatRange>(
-    "repeat",
-    REPEAT.OFF
-  );
-  const [volume, _setVolume] = createStoredSignal<number>("volume", 0.5);
-
-  const [timerLeft, setTimerLeft] = createStoredSignal("timerLeft", false);
-  const [isPlaying, setIsPlaying] = createSignal(false);
-  const [muted, setMuted] = createStoredSignal("muted", false);
-  const [shuffle, setShuffle] = createStoredSignal("shuffle", false);
-  const [showPlaylist, setShowPlaylist] = createStoredSignal("playlist", false);
-  const [playlist, setPlaylist] = createSignal(
-    shuffle() ? shuffleTracks(tracklist, tracklist[0]) : tracklist
-  );
-
-  const [currentTrack, setCurrentTrack] = createSignal(tracklist[0]);
   const currentIndex = createMemo(() => {
-    return playlist().findIndex((track) => track.id === currentTrack().id);
+    return store.playlist.findIndex(
+      (track) => track.id === store.currentTrack.id
+    );
   });
   const isFirstTrack = createMemo(() => currentIndex() === 0);
   const isLastTrack = createMemo(
-    () => currentIndex() === playlist().length - 1
+    () => currentIndex() === store.playlist.length - 1
   );
 
-  const handlePlayThrough = () => {
-    setDuration(audio.duration);
-    isPlaying() && audio.play();
-  };
-
-  /**
-   * Lance l'écoute de la musique à l'index choisit.
-   *
-   * `isPlaying` est alors passé à `true`, le `timer` est remis à `0` et enfin le
-   * `currentIndex` est ajouté dans le tableau de `previousIndexes`.
-   *
-   * @param index Index de la musique à écouter
-   */
   const play = (id: number) => {
-    const track = playlist().find((track) => track.id === id);
+    const track = store.playlist.find((track) => track.id === id);
     if (!track) throw new Error("Track id not found");
 
-    setCurrentTrack(track);
-    setIsPlaying(true);
+    setStore({ isPlaying: true, currentTrack: track });
   };
 
   const togglePlay = () => {
+    // Permet de réprendre le titre où on en était au reload
+    audio.currentTime = store.timer;
     audio.paused ? audio.play() : audio.pause();
-    setIsPlaying((prev) => !prev);
+    setStore("isPlaying", toggle);
   };
 
-  const setVolume = (n: number) => {
-    audio.volume = n;
-    setMuted(n === 0);
-    _setVolume(n);
-  };
-
-  const toggleMuted = () => {
-    setMuted((prev) => !prev);
-  };
+  const toggleMuted = () => setStore("muted", toggle);
+  const toggleTimerLeft = () => setStore("timerLeft", toggle);
+  const toggleShowPlaylist = () => setStore("showPlaylist", toggle);
 
   const toggleShuffle = () => {
-    setShuffle((prev) => {
-      const isShuffle = !prev;
-
-      if (isShuffle) {
-        setPlaylist(shuffleTracks(tracklist, currentTrack()));
-      } else {
-        setPlaylist(tracklist.slice());
-      }
-
-      return isShuffle;
+    setStore({
+      shuffle: !store.shuffle,
+      playlist: store.shuffle
+        ? tracklist.slice()
+        : shuffleTracks(tracklist, store.currentTrack),
     });
   };
-  const toggleTimerLeft = () => {
-    setTimerLeft((prev) => !prev);
-  };
-  const toggleShowPlaylist = () => {
-    setShowPlaylist((prev) => !prev);
-  };
+
   const toggleRepeat = () => {
-    setRepeat((prev) => ((prev + 1) % REPEATS.length) as RepeatRange);
+    setStore("repeat", (prev) => ((prev + 1) % REPEATS.length) as RepeatRange);
   };
 
   const previous = () => {
-    const prevTrack = playlist()[currentIndex() - 1];
+    const prevTrack = store.playlist[currentIndex() - 1];
     if (prevTrack) play(prevTrack.id);
   };
 
@@ -195,41 +96,53 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
     (_event: Event) => {
       let nextTrack: TrackAlbum | undefined;
 
-      if (isLastTrack() && repeat() === REPEAT.ALL) {
-        nextTrack = playlist()[0];
-      } else if (!force && repeat() === REPEAT.ONE) {
-        nextTrack = currentTrack();
-        setTimer(0);
+      if (isLastTrack() && store.repeat === REPEAT.ALL) {
+        nextTrack = store.playlist[0];
+      } else if (!force && store.repeat === REPEAT.ONE) {
+        nextTrack = store.currentTrack;
+        setStore("timer", 0);
         audio.play();
       } else if (!isLastTrack()) {
-        nextTrack = playlist()[currentIndex() + 1];
+        nextTrack = store.playlist[currentIndex() + 1];
       }
       if (nextTrack) play(nextTrack.id);
       else {
-        setCurrentTrack(playlist()[0]);
-        setIsPlaying(false);
-        setTimer(0);
+        setStore({
+          timer: 0,
+          isPlaying: false,
+          currentTrack: store.playlist[0],
+        });
       }
     };
 
-  const handleChangeTimer = (newTimer: number) => {
+  const setVolume = (n: number) => {
+    audio.volume = n;
+    setStore({ muted: n === 0, volume: n });
+  };
+
+  const setTimer = (newTimer: number) => {
     audio.currentTime = newTimer;
   };
   const handleTimeUpdate = () => {
-    setTimer(audio.currentTime);
+    setStore("timer", audio.currentTime);
+  };
+
+  const handlePlayThrough = () => {
+    setStore("duration", audio.duration);
+    store.isPlaying && audio.play();
   };
 
   audio.addEventListener("ended", next());
   audio.addEventListener("timeupdate", handleTimeUpdate);
 
   createEffect(() => {
-    audio.volume = muted() ? 0 : volume();
+    audio.volume = store.muted ? 0 : store.volume;
   });
 
   createEffect(() => {
-    console.log("Track en cours :", currentTrack().title);
+    console.log("Track en cours :", store.currentTrack.title);
     audio.currentTime = 0;
-    audio.src = PATH.TRACK + currentTrack().filename;
+    audio.src = PATH.TRACK + store.currentTrack.filename;
     audio.addEventListener("canplaythrough", handlePlayThrough);
   });
 
@@ -239,33 +152,21 @@ export function PlayerContextProvider(props: ParentProps<PlayerContextProps>) {
   });
 
   const value: PlayerContextModel = {
+    store,
     tracklist,
     isFirstTrack,
     isLastTrack,
-    currentIndex,
-    currentTrack,
     previous,
     next,
     play,
     togglePlay,
-    isPlaying,
-    repeat,
     toggleRepeat,
-    volume,
-    setVolume,
-    muted,
     toggleMuted,
-    shuffle,
     toggleShuffle,
-    timer,
-    setTimer,
-    timerLeft,
     toggleTimerLeft,
-    showPlaylist,
     toggleShowPlaylist,
-    playlist,
-    handleChangeTimer,
-    duration,
+    setVolume,
+    setTimer,
   };
 
   return (

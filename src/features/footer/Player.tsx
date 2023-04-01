@@ -5,10 +5,10 @@ import { usePlayer } from "@utils/contexts/playerContext";
 import { ProgressBar } from "./ProgressBar";
 
 export function Player() {
-  const { currentTrack, timer, duration, timerLeft, toggleTimerLeft } =
+  const { store, toggleTimerLeft } =
     usePlayer();
   return (
-    <Show when={currentTrack()} keyed>
+    <Show when={store.currentTrack} keyed>
       {(current: TrackAlbum) => (
         <>
           <p class={styles.infos}>
@@ -17,15 +17,15 @@ export function Player() {
           </p>
           <div class={styles.trackbarWrapper}>
             <div class={styles.timer}>
-              <span>{secondsToMMSS(timer())}</span>
+              <span>{secondsToMMSS(store.timer)}</span>
             </div>
             <ProgressBar />
             <div class={styles.timer} onClick={toggleTimerLeft}>
               <Show
-                when={timerLeft()}
-                fallback={<span>{secondsToMMSS(current.duration)}</span>}
+                when={store.timerLeft}
+                fallback={<span>{secondsToMMSS(store.duration)}</span>}
               >
-                <span>{secondsToMMSS(Math.ceil(duration() - timer()))}</span>
+                <span>{secondsToMMSS(Math.ceil(store.duration - store.timer))}</span>
               </Show>
             </div>
           </div>

@@ -5,17 +5,17 @@ import { REPEAT } from "@utils/constants";
 import { Match, Switch } from "solid-js";
 
 export function RepeatButton() {
-  const { repeat, toggleRepeat } = usePlayer();
+  const { store, toggleRepeat } = usePlayer();
   return (
     <button type="button" class={styles.btn} onClick={toggleRepeat}>
       <Switch>
-        <Match when={repeat() === REPEAT.OFF}>
+        <Match when={store.repeat === REPEAT.OFF}>
           <BsRepeat size={2} class={styles.disabled} />
         </Match>
-        <Match when={repeat() === REPEAT.ONE}>
+        <Match when={store.repeat === REPEAT.ONE}>
           <BsRepeat1 size={2} />
         </Match>
-        <Match when={repeat() === REPEAT.ALL}>
+        <Match when={store.repeat === REPEAT.ALL}>
           <BsRepeatAll size={2} />
         </Match>
       </Switch>
