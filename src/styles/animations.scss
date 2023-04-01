@@ -1,0 +1,11 @@
+.playlist-enter-active,
+.playlist-exit-active {
+  transition: transform 0.6s;
+}
+.playlist-enter,
+.playlist-exit-to {
+  transform: translatex(100%);
+}
+.playlist-enter-to {
+  transform: translatex(0);
+}

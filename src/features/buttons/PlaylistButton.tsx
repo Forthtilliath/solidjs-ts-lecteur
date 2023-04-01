@@ -1,10 +1,13 @@
+import { Show } from "solid-js";
+
 import { usePlayer } from "@utils/contexts/playerContext";
 import { BiSolidPlaylist } from "@features/Icons";
+
 import styles from "@styles/Button.module.scss";
-import { Show } from "solid-js";
 
 export function PlaylistButton() {
   const { store, toggleShowPlaylist } = usePlayer();
+
   return (
     <button type="button" class={styles.btn} onClick={toggleShowPlaylist}>
       <Show

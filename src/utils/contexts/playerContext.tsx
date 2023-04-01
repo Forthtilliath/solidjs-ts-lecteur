@@ -13,6 +13,7 @@ import * as Array from "@utils/methods/array";
 import { toggle } from "@utils/methods/boolean";
 
 import { createStorage } from "@signals/createStorage";
+import { setupCooldown } from "@utils/methods/duration";
 
 const tracklist = addAlbums(tracks);
 const REPEATS = Object.values(REPEAT);
@@ -38,6 +39,7 @@ const PlayerContext = createContext<PlayerContextModel>();
 
 export function PlayerContextProvider(props: ParentProps) {
   const [store, setStore] = createStorage("player", initialPlayerStore);
+  const [cooldown600ms, clearCooldown600ms] = setupCooldown(600);
   // Bloque le fait d'avoir la lecture au reload
   setStore("isPlaying", false);
 
@@ -71,7 +73,9 @@ export function PlayerContextProvider(props: ParentProps) {
 
   const toggleMuted = () => setStore("muted", toggle);
   const toggleTimerLeft = () => setStore("timerLeft", toggle);
-  const toggleShowPlaylist = () => setStore("showPlaylist", toggle);
+  // Ajout d'un cd de 600ms entre 2 clics (correspond à la durée de l'animation)
+  const toggleShowPlaylist = () =>
+    cooldown600ms(() => setStore("showPlaylist", toggle));
 
   const toggleShuffle = () => {
     setStore({
@@ -149,6 +153,7 @@ export function PlayerContextProvider(props: ParentProps) {
   onCleanup(() => {
     audio.removeEventListener("ended", next());
     audio.removeEventListener("timeupdate", handleTimeUpdate);
+    clearCooldown600ms();
   });
 
   const value: PlayerContextModel = {

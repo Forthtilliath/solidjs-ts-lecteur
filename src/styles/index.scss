@@ -8,7 +8,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   overflow: hidden;
 }
 
@@ -16,7 +17,7 @@ body {
   font-family: $font-text;
   color: $color-white;
   overflow-x: hidden;
-  
+
   background-image: linear-gradient(
     120deg,
     $color-blue-dark 0%,
@@ -25,7 +26,12 @@ body {
   transition: background 0.1s;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: $font-header;
 }
 
