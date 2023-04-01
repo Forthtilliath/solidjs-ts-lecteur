@@ -1,13 +1,6 @@
-- Bouton repeat
-- Enregistrer les options dans le localStorage
-- Dernière musique ?
-- Fix un bug de next/previous
-
-- Prev : 
-  - Si timer < 3 : musique prev
-  - Sinon timer = 0
-
-- Next : musique suivante de la playlist
+- Fix bouton mute size
+- Styliser input range volume
+- Readme file
 
 - Playlist :
   - Reset quand on clique sur shuffle
@@ -45,3 +38,4 @@
 - createStore au lieu des createSignal dans le context
 - Trier weight des fonts
 - Hover sur les boutons
+- 
