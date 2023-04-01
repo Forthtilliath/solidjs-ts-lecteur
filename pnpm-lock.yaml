@@ -12,9 +12,6 @@ devDependencies:
   '@types/node':
     specifier: ^18.15.11
     version: 18.15.11
-  classnames:
-    specifier: ^2.3.2
-    version: 2.3.2
   sass:
     specifier: ^1.60.0
     version: 1.60.0
@@ -758,10 +755,6 @@ packages:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.2
-    dev: true
-
-  /classnames@2.3.2:
-    resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
     dev: true
 
   /color-convert@1.9.3:

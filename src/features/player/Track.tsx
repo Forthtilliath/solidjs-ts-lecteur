@@ -2,7 +2,6 @@ import { usePlayer } from "@assets/contexts/playerContext";
 import { FaSolidPause, FaSolidPlay } from "@features/Icons";
 import styles from "@styles/player/Track.module.scss";
 import { secondsToMMSS } from "@utils/methods/duration";
-import classNames from "classnames";
 import { createMemo, Show } from "solid-js";
 
 type Props = TrackAlbum & {
@@ -28,12 +27,14 @@ export function Track(props: Props) {
 
   return (
     <div
-      class={classNames(styles.wrapper, { [styles.active]: active() })}
+      class={styles.wrapper}
+      classList={{ [styles.active]: active() }}
       onClick={handlePlay(props.id)}
     >
       <div class={styles.index}>{props.index + 1}</div>
       <div
-        class={classNames(styles.cover, { [styles.active]: active() })}
+        class={styles.cover}
+        classList={{ [styles.active]: active() }}
         ref={coverRef!}
       >
         <img src={"/src/assets/covers/" + props.album.filename} alt="cover" />

@@ -7,7 +7,6 @@ import {
 } from "@features/Icons";
 import { usePlayer } from "@assets/contexts/playerContext";
 import { Show } from "solid-js";
-import classNames from "classnames";
 
 export function Sidebar() {
   const {
@@ -49,7 +48,8 @@ export function Sidebar() {
       <button
         type="button"
         onClick={toggleShowPlaylist}
-        class={classNames(styles.btnPlaylist, showPlaylist() && styles.active)}
+        class={styles.btnPlaylist}
+        classList={{ [styles.active]: showPlaylist() }}
       >
         <BiSolidPlaylist />
         <span>

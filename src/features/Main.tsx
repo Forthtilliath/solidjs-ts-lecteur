@@ -10,9 +10,9 @@ export function Main() {
 
   return (
     <div class={styles.wrapper}>
-      <TransitionGroup>
+      {/* <TransitionGroup> */}
         <Tracklist />
-      </TransitionGroup>
+      {/* </TransitionGroup> */}
       <TransitionGroup
         onEnter={(el, done) => {
           const a = el.animate(
