@@ -1,7 +1,6 @@
 export const tracks: Tracks = [
   {
     id: 42884743,
-    cover: "",
     title: "And Blood Shall Be Poured",
     artist: "In Uchronia",
     albumId: 0,
@@ -11,7 +10,6 @@ export const tracks: Tracks = [
   },
   {
     id: 42031168,
-    cover: "",
     title: "Devouring Hazard - Life's Theme",
     artist: "In Uchronia",
     albumId: 0,
@@ -20,7 +18,6 @@ export const tracks: Tracks = [
   },
   {
     id: 96986167,
-    cover: "",
     title: "Reckindled",
     artist: "In Uchronia",
     albumId: 0,
@@ -29,7 +26,6 @@ export const tracks: Tracks = [
   },
   {
     id: 42199059,
-    cover: "",
     title: "Aurora Borealis (Leenock's Theme)",
     artist: "In Uchronia",
     albumId: 1,
@@ -38,7 +34,6 @@ export const tracks: Tracks = [
   },
   {
     id: 70746358,
-    cover: "",
     title: "Asconoid Hyperdelicacy of Heroicalness (Brown's Theme)",
     artist: "In Uchronia",
     albumId: 1,
@@ -48,7 +43,6 @@ export const tracks: Tracks = [
   },
   {
     id: 69073699,
-    cover: "",
     title: "March Of The Titan (Hero's Theme)",
     artist: "In Uchronia",
     albumId: 1,
@@ -58,7 +52,6 @@ export const tracks: Tracks = [
   },
   {
     id: 76986942,
-    cover: "",
     title: "Ouverture Iron Squid II",
     artist: "In Uchronia",
     albumId: 1,
@@ -68,7 +61,6 @@ export const tracks: Tracks = [
   },
   {
     id: 69073057,
-    cover: "",
     title: "The Calling",
     artist: "In Uchronia",
     albumId: 1,
@@ -77,7 +69,6 @@ export const tracks: Tracks = [
   },
   {
     id: 42033903,
-    cover: "",
     title: "Freed From Sanity - Symbol's Theme",
     artist: "In Uchronia",
     albumId: 1,
@@ -86,7 +77,6 @@ export const tracks: Tracks = [
   },
   {
     id: 42035568,
-    cover: "",
     title: "Ordo Ab Chao",
     artist: "In Uchronia",
     albumId: 1,
@@ -95,7 +85,6 @@ export const tracks: Tracks = [
   },
   {
     id: 4203258,
-    cover: "",
     title: "The Whisper That Raised Their Souls",
     artist: "In Uchronia",
     albumId: 1,
@@ -105,7 +94,6 @@ export const tracks: Tracks = [
   },
   {
     id: 42033029,
-    cover: "",
     title: "World Eater",
     artist: "In Uchronia",
     albumId: 1,
@@ -114,7 +102,6 @@ export const tracks: Tracks = [
   },
   {
     id: 60286132,
-    cover: "",
     title: "Night Consortium",
     artist: "In Uchronia",
     albumId: 2,
@@ -123,7 +110,6 @@ export const tracks: Tracks = [
   },
   {
     id: 60331742,
-    cover: "",
     title: "The Hidden Guardian",
     artist: "In Uchronia",
     albumId: 2,
@@ -133,7 +119,6 @@ export const tracks: Tracks = [
   // Séries
   {
     id: 481351971,
-    cover: "",
     title: "Goodbye",
     artist: "Aser Mohammed",
     albumId: 3,
@@ -143,7 +128,6 @@ export const tracks: Tracks = [
   },
   {
     id: 98875296,
-    cover: "",
     title: "Winter of fire and blood",
     artist: "IceRequiem",
     albumId: 4,
@@ -153,7 +137,6 @@ export const tracks: Tracks = [
   },
   {
     id: 254527393,
-    cover: "",
     title: "Running Up That Hill",
     artist: "Kate Bush",
     albumId: 5,
@@ -163,7 +146,6 @@ export const tracks: Tracks = [
   },
   {
     id: 747048916,
-    cover: "",
     title: "Wipe Out",
     artist: "The Surfaris",
     albumId: 6,
@@ -172,7 +154,6 @@ export const tracks: Tracks = [
   },
   {
     id: 200380830,
-    cover: "",
     title: "The Hit House",
     artist: "Fury",
     albumId: 7,
@@ -183,7 +164,6 @@ export const tracks: Tracks = [
   // Divers
   {
     id: 108672044,
-    cover: "",
     title: "Master Of Puppets",
     artist: "Metallica",
     albumId: 8,

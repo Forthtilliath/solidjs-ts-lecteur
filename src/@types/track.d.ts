@@ -3,7 +3,6 @@ import { albums } from "@utils/data";
 declare global {
   type Track = {
     id: number;
-    cover: string;
     title: string;
     artist: string;
     albumId: typeof albums[number]["id"];
