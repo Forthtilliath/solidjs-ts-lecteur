@@ -12,6 +12,7 @@ export function PreviousButton() {
       class={styles.btn}
       onClick={previous}
       disabled={isFirstTrack()}
+      aria-label="Musique précédente"
     >
       <BiSolidSkipPreviousCircle size={3} />
     </button>

@@ -177,51 +177,51 @@ export const albums: Albums = [
   {
     id: 0,
     name: "The Iron Squid I",
-    filename: "ab67616d00001e02967bc50ed55f231165c3e6a5.jpeg",
+    filename: "ab67616d00001e02967bc50ed55f231165c3e6a5.jpg",
   },
   {
     id: 1,
     name: "The Iron Squid II",
-    filename: "ab67616d00001e026eee3c9ac03d4eb46dcb717d.jpeg",
+    filename: "ab67616d00001e026eee3c9ac03d4eb46dcb717d.jpg",
   },
   {
     id: 2,
     name: "Tales of the Lane",
-    filename: "ab67616d00001e02549c20e8c99139d88116ed3d.jpeg",
+    filename: "ab67616d00001e02549c20e8c99139d88116ed3d.jpg",
   },
   {
     id: 3,
     name: "Dark, A Netflix Original Series",
-    filename: "ab67616d00001e027d214ba606fa1cd6d3dafcb0.jpeg",
+    filename: "ab67616d00001e027d214ba606fa1cd6d3dafcb0.jpg",
   },
   {
     id: 4,
     name: "Game Of Thrones (Music From The HBO Series)",
-    filename: "ab67616d00001e025a3e592c718293dba1a0d73f.jpeg",
+    filename: "ab67616d00001e025a3e592c718293dba1a0d73f.jpg",
   },
   {
     id: 5,
     name: "Hounds Of Love",
-    filename: "ab67616d00001e02ad08f4b38efbff0c0da0f252.jpeg",
+    filename: "ab67616d00001e02ad08f4b38efbff0c0da0f252.jpg",
   },
   {
     id: 6,
     name: "Wipe Out",
-    filename: "ab67616d00001e0236bdfc885a1779f07f024c5e.jpeg",
+    filename: "ab67616d00001e0236bdfc885a1779f07f024c5e.jpg",
   },
   {
     id: 7,
     name: "Marvel's Daredevil - Official Netflix Series Trailer",
-    filename: "ab67706c0000da847acceeabf13c3a71856bffec.jpeg",
+    filename: "ab67706c0000da847acceeabf13c3a71856bffec.jpg",
   },
   {
     id: 8,
     name: "Master Of Puppets",
-    filename: "ab67616d00001e02668e3aca3167e6e569a9aa20.jpeg",
+    filename: "ab67616d00001e02668e3aca3167e6e569a9aa20.jpg",
   },
   {
     id: 9,
     name: "O'Gaming Tournament Nation Wars 2",
-    filename: "nation_wars.jpeg",
+    filename: "nation_wars.jpg",
   },
 ] as const;

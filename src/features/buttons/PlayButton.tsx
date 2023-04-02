@@ -6,7 +6,12 @@ import { Show } from "solid-js";
 export function PlayButton() {
   const { store, togglePlay } = usePlayer();
   return (
-    <button type="button" class={styles.btn} onClick={togglePlay}>
+    <button
+      type="button"
+      class={styles.btn}
+      onClick={togglePlay}
+      aria-label={store.isPlaying ? "Mettre en pause" : "Lecture"}
+    >
       <Show when={store.isPlaying} fallback={<FaSolidCirclePlay size={3} />}>
         <FaSolidCirclePause size={3} />
       </Show>

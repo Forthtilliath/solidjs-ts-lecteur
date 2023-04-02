@@ -12,7 +12,12 @@ import { Match, Show, Switch } from "solid-js";
 export function VolumeButton() {
   const { store, toggleMuted } = usePlayer();
   return (
-    <button type="button" class={styles.btn} onClick={toggleMuted}>
+    <button
+      type="button"
+      class={styles.btn}
+      onClick={toggleMuted}
+      aria-label={store.muted ? "Activer le son" : "Couper le son"}
+    >
       <Show
         when={!store.muted}
         fallback={<FaSolidVolumeXmark size={2} class={styles.disabled} />}

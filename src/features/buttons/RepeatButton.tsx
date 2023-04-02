@@ -7,7 +7,12 @@ import { Match, Switch } from "solid-js";
 export function RepeatButton() {
   const { store, toggleRepeat } = usePlayer();
   return (
-    <button type="button" class={styles.btn} onClick={toggleRepeat}>
+    <button
+      type="button"
+      class={styles.btn}
+      onClick={toggleRepeat}
+      aria-label="Modifier le mode de répétition"
+    >
       <Switch>
         <Match when={store.repeat === REPEAT.OFF}>
           <BsRepeat size={2} class={styles.disabled} />

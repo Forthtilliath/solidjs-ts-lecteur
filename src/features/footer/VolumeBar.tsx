@@ -14,6 +14,7 @@ export function VolumeBar() {
         step=".01"
         value={store.volume}
         onInput={(e) => setVolume(e.currentTarget.valueAsNumber)}
+        aria-label="Modifier le volume"
       />
     </div>
   );

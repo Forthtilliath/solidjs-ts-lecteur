@@ -6,7 +6,10 @@ import { Show } from "solid-js";
 export function ShuffleButton() {
   const { store, toggleShuffle } = usePlayer();
   return (
-    <button type="button" class={styles.btn} onClick={toggleShuffle}>
+    <button type="button" class={styles.btn} onClick={toggleShuffle}
+    aria-label={
+      store.shuffle ? "Activer le mode aléatoire" : "Désactiver le mode aléatoire"
+    }>
       <Show
         when={store.shuffle}
         fallback={<BiRegularShuffle size={2} class={styles.disabled} />}

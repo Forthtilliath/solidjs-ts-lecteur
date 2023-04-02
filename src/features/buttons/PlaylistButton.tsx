@@ -9,7 +9,14 @@ export function PlaylistButton() {
   const { store, toggleShowPlaylist } = usePlayer();
 
   return (
-    <button type="button" class={styles.btn} onClick={toggleShowPlaylist}>
+    <button
+      type="button"
+      class={styles.btn}
+      onClick={toggleShowPlaylist}
+      aria-label={
+        store.showPlaylist ? "Cacher la playlist" : "Afficher la playlist"
+      }
+    >
       <Show
         when={store.showPlaylist}
         fallback={<BiSolidPlaylist size={2} class={styles.disabled} />}

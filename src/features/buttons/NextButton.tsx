@@ -10,6 +10,7 @@ export function NextButton() {
       class={styles.btn}
       onClick={next(true)}
       disabled={isLastTrack()}
+      aria-label="Musique suivante"
     >
       <BiSolidSkipNextCircle size={3} />
     </button>

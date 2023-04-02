@@ -16,6 +16,7 @@ export function ProgressBar() {
       value={store.timer}
       step="0.01"
       onInput={(e) => setTimer(e.currentTarget.valueAsNumber)}
+      aria-label="Modifier la progression de la musique"
     />
   );
 }

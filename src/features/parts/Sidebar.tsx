@@ -29,7 +29,10 @@ export function Sidebar() {
               alt="Couverture de l'album"
               class={styles.image}
             />
-            <button class={styles.playIcon}>
+            <button
+              class={styles.playIcon}
+              aria-label={store.isPlaying ? "Mettre en pause" : "Lecture"}
+            >
               <Show when={store.isPlaying} fallback={<FaSolidPlay size={4} />}>
                 <FaSolidPause size={4} />
               </Show>
@@ -47,6 +50,9 @@ export function Sidebar() {
         onClick={toggleShowPlaylist}
         class={styles.btnPlaylist}
         classList={{ [styles.active]: store.showPlaylist }}
+        aria-label={
+          store.showPlaylist ? "Fermer la playlist" : "Afficher la playlist"
+        }
       >
         <BiSolidPlaylist />
         <span>

@@ -1,9 +1,11 @@
-import { usePlayer } from "@utils/contexts/playerContext";
-import { FaSolidPause, FaSolidPlay } from "@features/Icons";
-import styles from "@styles/Track.module.scss";
-import { secondsToMMSS } from "@utils/methods/duration";
 import { createMemo, Show } from "solid-js";
+
+import { FaSolidPause, FaSolidPlay } from "@features/Icons";
+import { usePlayer } from "@utils/contexts/playerContext";
+import { secondsToMMSS } from "@utils/methods/duration";
 import { PATH } from "@utils/constants";
+
+import styles from "@styles/Track.module.scss";
 
 type Props = TrackAlbum & {
   index: number;
@@ -38,8 +40,11 @@ export function Track(props: Props) {
         classList={{ [styles.active]: active() }}
         ref={coverRef!}
       >
-        <img src={PATH.COVER + props.album.filename} alt="cover" />
-        <button class={styles.playIcon}>
+        <img src={PATH.THUMB + props.album.filename} alt="cover" />
+        <button
+          class={styles.playIcon}
+          aria-label={store.isPlaying ? "Mettre en pause" : "Lecture"}
+        >
           <Show when={store.isPlaying} fallback={<FaSolidPlay size={2} />}>
             <FaSolidPause size={2} />
           </Show>

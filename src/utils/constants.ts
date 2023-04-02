@@ -5,6 +5,7 @@ export const REPEAT = {
 } as const;
 
 export const PATH = {
-  COVER: "./assets/covers/",
+  COVER: "./assets/cover/",
+  THUMB: "./assets/cover-thumb/",
   TRACK: "./assets/tracks/",
 };
