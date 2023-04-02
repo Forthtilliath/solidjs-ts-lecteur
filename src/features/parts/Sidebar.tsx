@@ -13,6 +13,8 @@ import styles from "@styles/Sidebar.module.scss";
 
 export function Sidebar() {
   const { store, togglePlay, toggleShowPlaylist } = usePlayer();
+  // Fix changement des paths des images
+  const filename = store.currentTrack?.album.filename.replace(".jpeg", ".jpg");
 
   return (
     <div class={styles.wrapper}>
@@ -25,7 +27,7 @@ export function Sidebar() {
         <div class={styles.track}>
           <div class={styles.cover} onClick={togglePlay}>
             <img
-              src={PATH.COVER + store.currentTrack?.album.filename}
+              src={PATH.COVER + filename}
               alt="Couverture de l'album"
               class={styles.image}
             />
