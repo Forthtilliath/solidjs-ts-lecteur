@@ -56,3 +56,11 @@ A ceci, un ensemble de contrôles, un lecteur et des fonctionnalités sont dispo
 - **Barre de volume** : Modifier le volume de la lecture. Si le nouveau son n'est pas 0, l'option muet est désactivée.
 
 Les réglages sont enregistrés dans le localStorage afin d'améliorer le confort de l'utilisateur.
+
+## SEO
+
+L'application répond pleinement aux exigences de chacune des catégories :
+![Alt text](public/assets/doc/lighthouse.png)
+
+De plus, des balises Open Graph ont été mis en place :
+![Alt text](public/assets/doc/open_graph.png)
