@@ -1,0 +1,29 @@
+@import "variables";
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: $color-blue-light;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: $color-blue-medium;
+background: linear-gradient(180deg, $color-blue-medium 0%, $color-blue-dark 100%);
+    border-radius: 5px;
+    border: 1px solid $color-blue-light;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: $color-blue-dark;
+  }
+
+ * {
+    scrollbar-width: thin;
+    scrollbar-color: $color-blue-dark $color-blue-light;
+  }
