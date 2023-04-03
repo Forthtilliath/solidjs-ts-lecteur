@@ -16,7 +16,7 @@ export function Track(props: Props) {
   const active = createMemo(() => store.currentTrack.id === props.id);
   let coverRef: HTMLDivElement;
   // Fix changement des paths des images
-  const filename = props.album.filename.replace(".jpeg", ".jpg");
+  const filename = () => props.album.filename.replace(".jpeg", ".jpg");
 
   /**
    * Cliquer sur la ligne permet uniquement de mettre lecture, toutefois cliquer sur la
@@ -42,7 +42,7 @@ export function Track(props: Props) {
         classList={{ [styles.active]: active() }}
         ref={coverRef!}
       >
-        <img src={PATH.THUMB + filename} alt="cover" />
+        <img src={PATH.THUMB + filename()} alt="cover" />
         <button
           class={styles.playIcon}
           aria-label={store.isPlaying ? "Mettre en pause" : "Lecture"}
