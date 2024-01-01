@@ -15,7 +15,7 @@ devDependencies:
     version: 0.5.1
   '@types/node':
     specifier: ^20.8.7
-    version: 20.8.7
+    version: 20.10.6
   sass:
     specifier: ^1.60.0
     version: 1.69.4
@@ -27,7 +27,7 @@ devDependencies:
     version: 5.2.2
   vite:
     specifier: ^4.2.1
-    version: 4.5.0(@types/node@20.8.7)(sass@1.69.4)
+    version: 4.5.0(@types/node@20.10.6)(sass@1.69.4)
   vite-plugin-solid:
     specifier: ^2.6.1
     version: 2.6.1(solid-js@1.8.4)(vite@4.5.0)
@@ -752,10 +752,10 @@ packages:
       '@babel/types': 7.21.4
     dev: true
 
-  /@types/node@20.8.7:
-    resolution: {integrity: sha512-21TKHHh3eUHIi2MloeptJWALuCu5H7HQTdTrWIFReA8ad+aggoX+lRes3ex7/FtpC+sVUpFMQ+QTfYr74mruiQ==}
+  /@types/node@20.10.6:
+    resolution: {integrity: sha512-Vac8H+NlRNNlAmDfGUP7b5h/KA+AtWIzuXy0E6OyP8f1tCLYAtPvKRRDJjAPqhpCb0t6U2j7/xqAuLEebW2kiw==}
     dependencies:
-      undici-types: 5.25.3
+      undici-types: 5.26.5
     dev: true
 
   /ansi-styles@3.2.1:
@@ -1151,8 +1151,8 @@ packages:
     hasBin: true
     dev: true
 
-  /undici-types@5.25.3:
-    resolution: {integrity: sha512-Ga1jfYwRn7+cP9v8auvEXN1rX3sWqlayd4HP7OKk4mZWylEmu3KzXDUGrQUN6Ol7qo1gPvB2e5gX6udnyEPgdA==}
+  /undici-types@5.26.5:
+    resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
     dev: true
 
   /update-browserslist-db@1.0.10(browserslist@4.21.5):
@@ -1183,13 +1183,13 @@ packages:
       merge-anything: 5.1.4
       solid-js: 1.8.4
       solid-refresh: 0.5.2(solid-js@1.8.4)
-      vite: 4.5.0(@types/node@20.8.7)(sass@1.69.4)
+      vite: 4.5.0(@types/node@20.10.6)(sass@1.69.4)
       vitefu: 0.2.4(vite@4.5.0)
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /vite@4.5.0(@types/node@20.8.7)(sass@1.69.4):
+  /vite@4.5.0(@types/node@20.10.6)(sass@1.69.4):
     resolution: {integrity: sha512-ulr8rNLA6rkyFAlVWw2q5YJ91v098AFQ2R0PRFwPzREXOUJQPtFUG0t+/ZikhaOCDqFoDhN6/v8Sq0o4araFAw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -1217,7 +1217,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 20.8.7
+      '@types/node': 20.10.6
       esbuild: 0.18.20
       postcss: 8.4.31
       rollup: 3.29.4
@@ -1234,7 +1234,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 4.5.0(@types/node@20.8.7)(sass@1.69.4)
+      vite: 4.5.0(@types/node@20.10.6)(sass@1.69.4)
     dev: true
 
   /yallist@3.1.1:
