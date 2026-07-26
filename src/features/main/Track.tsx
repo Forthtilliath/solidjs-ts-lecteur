@@ -14,7 +14,7 @@ type Props = TrackAlbum & {
 export function Track(props: Props) {
   const { store, play, togglePlay } = usePlayer();
   const active = createMemo(() => store.currentTrack.id === props.id);
-  let coverRef: HTMLDivElement;
+  let coverRef!: HTMLDivElement;
   // Fix changement des paths des images
   const filename = () => props.album.filename.replace(".jpeg", ".jpg");
 

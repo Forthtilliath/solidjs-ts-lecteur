@@ -11,8 +11,8 @@ export function createStoredSignal<T>(
 
   const [value, setValue] = createSignal<T>(initialValue);
 
-  const setValueAndStore = ((arg) => {
-    const v = setValue(arg);
+  const setValueAndStore = ((...args: Parameters<typeof setValue>) => {
+    const v = setValue(...args);
     storage.setItem(key, JSON.stringify(v));
     return v;
   }) as typeof setValue;
