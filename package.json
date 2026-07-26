@@ -1,7 +1,7 @@
 {
-  "name": "vite-template-solid",
+  "name": "spotube",
   "version": "0.0.0",
-  "description": "",
+  "description": "Spotube, a music streaming app built with SolidJS and TypeScript.",
   "scripts": {
     "start": "vite",
     "dev": "vite",
@@ -10,12 +10,12 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@total-typescript/ts-reset": "^0.5.1",
-    "@types/node": "^20.8.7",
+    "@total-typescript/ts-reset": "^0.6.1",
+    "@types/node": "^26.1.1",
     "sass": "^1.60.0",
-    "solid-transition-group": "^0.2.2",
-    "typescript": "^5.2.2",
-    "vite": "^4.2.1",
+    "solid-transition-group": "^0.3.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.1.5",
     "vite-plugin-solid": "^2.6.1"
   },
   "dependencies": {
