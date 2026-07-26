@@ -1,12 +1,8 @@
 # Spotube
 
-> Spotube est une application de streaming musical qui te donne accès à quelques titres. 
+![License](https://img.shields.io/github/license/forthtilliath/spotube?style=for-the-badge) [![SolidJS](https://img.shields.io/badge/SolidJS-2C4F7C?style=for-the-badge&logo=solid&logoColor=white)](https://www.solidjs.com/) ![TypeScript](https://img.shields.io/badge/-TypeScript-blue?logo=typescript&logoColor=white&style=for-the-badge) [![Sass](https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white)](https://sass-lang.com/)
 
-<p>
-  <a aria-label="License" href="#">
-    <img alt="" src="https://img.shields.io/npm/l/classnames.svg?style=for-the-badge&labelColor=579805">
-  </a>
-</p>
+> Spotube est une application de streaming musical qui te donne accès à quelques titres.
 
 ## Contexte du projet
 
