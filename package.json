@@ -16,7 +16,7 @@
     "solid-transition-group": "^0.3.0",
     "typescript": "^7.0.2",
     "vite": "^8.1.5",
-    "vite-plugin-solid": "^2.6.1"
+    "vite-plugin-solid": "^2.11.14"
   },
   "dependencies": {
     "solid-js": "^1.7.0"
