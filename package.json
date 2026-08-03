@@ -15,7 +15,7 @@
     "sass": "^1.60.0",
     "solid-transition-group": "^0.3.0",
     "typescript": "^7.0.2",
-    "vite": "^8.1.5",
+    "vite": "^8.2.0",
     "vite-plugin-solid": "^2.6.1"
   },
   "dependencies": {
